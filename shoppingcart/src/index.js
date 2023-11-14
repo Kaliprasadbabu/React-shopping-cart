@@ -8,12 +8,15 @@ import   '../node_modules/bootstrap/dist/css/bootstrap.css';
 import { Register } from './Register/Register';
 import { NetflixIndex } from './netflix-index/netflix-index'; 
 import { DataBinding } from './data-binding/data-binding';
+import FormValidation from './FormValidation/FormValidation';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // <DataBinding/>
+//<FormValidation/>
+//<Register/>
 root.render(
-  <React.StrictMode>
-    <DataBinding/>
-   
+  <React.StrictMode> 
+  <Register/>
+  
   </React.StrictMode>
 );
 
