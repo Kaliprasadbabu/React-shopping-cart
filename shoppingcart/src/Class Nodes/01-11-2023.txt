@@ -1,0 +1,44 @@
+Summary:
+  >npx  create-react-app    shopping-react
+
+1. Go to src folder and add a new file
+
+		"login.jsx"
+
+
+export function Login()
+{
+    return(
+        <div>
+            <h2>Login</h2>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text"></input></dd>
+                <dt>Password</dt>
+                <dd><input type="password"></input></dd>
+            </dl>
+            <button>Login</button>
+        </div>
+    )
+}
+
+2. Go to index.js
+
+ import { Login } from './login';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Login />
+  </React.StrictMode>
+);
+
+3. Run app
+
+	> npm start
+
+	 http://localhost:3000
+
+JavaScript Topics
+- Modules
+- Functions

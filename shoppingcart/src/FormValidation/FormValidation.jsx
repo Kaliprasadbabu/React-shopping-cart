@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from "react";
-import './FormValidation.css';
+// import './FormValidation.css';
 const FormValidation = () => {
 
     const initialValues = { username: "", email: "", password: "" };

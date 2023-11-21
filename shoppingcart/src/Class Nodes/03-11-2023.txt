@@ -1,0 +1,205 @@
+1. Function Configuration
+	a) Declaration
+	b) Expression
+	
+2. Function Definition, Signature, Declaration
+
+3. Function Parameters
+	- Rest
+	- Spread
+
+4. Function Return
+
+5. Function Closure
+
+- Closure is a mechanism that allows the members of outer function accessible to inner functions.
+
+Ex:
+<script>
+    function Outer()
+    {
+         var x = 20;
+         function Inner(){
+            var y = 30;
+            var z = x + y;
+            return z;
+         }
+         document.write(`Addition=${Inner()}`);
+    }
+</script>
+
+6. Function Callback and Promise
+- Callback is a technique of configuring set of functions that execute according to state and situation.
+- Callback uses "Synchornous" technique.
+- Sync is blocking technique, which blocks the other tasks in background when it is performing the specified task.
+
+Ex: Callback
+
+<script>
+    function VerifyUser(password, success, failure){
+        if(password=="admin"){
+            success();
+        } else {
+            failure();
+        }
+    }
+    VerifyUser(prompt("Enter Password"),function(){document.write("Verified")}, function(){document.write("Invalid")});
+</script>
+
+- Promise uses Async methods.
+- Promise use unblocking technique, without blocking the existing tasks it can perform the given task.
+- Promise comprises of 3 phases
+	a) Initial
+	b) resolved
+	c) rejected
+- Promise in JavaScript is created by using Promise() constructor.
+
+Syntax:
+	var   Name = new Promise(function(resolve, reject){
+		if(condition) {
+		     resolve("response");
+		} else {
+		     reject("error");
+		}
+	})
+
+- Promise executes resolve by using "then()" and reject by using "catch()".
+
+Syntax:
+		refName.then(function(response){ }).catch(function(error){})
+
+EX:
+<script>
+    var VerifyUser = new Promise(function(resolve, reject){
+         var password = prompt("Enter Password");
+         if(password=="admin"){
+            resolve("Verified..");
+         } else {
+            reject("Something went wrong");
+         }
+    })
+    VerifyUser
+    .then(function(response){ document.write(response)})
+    .catch(function(error){document.write(error)});
+
+</script>
+
+FAQ: Name any promise of JavaScript?
+Ans:  "fetch()"
+
+Syntax:
+	  fetch("url")
+		.then(function(response(){})
+		.catch(function(error(){})
+		.finally(function(){ })
+
+Ex:
+products.json
+[
+    {
+        "Name":"TV",
+        "Price": 45000.44
+    },
+    {
+        "Name":"Mobile",
+        "Price": 12000.33
+    }
+]
+
+
+<script>
+    fetch("products.json")
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(products){
+        products.map(function(product){
+            document.write(product.Name + "<br>");
+        })
+    })
+</script>
+
+7. Function Generator
+- A function generator is used in JavaScript to create Iterators.
+- Iterator is a software design pattern used to read elements from a collection in sequential order.
+- It doesn't require condition, initialization and counter.
+
+Syntax:
+	function*  Name()
+	{
+	  yield  value;
+	  yield  value;
+	}
+
+	*	=>  zero or more times 
+	yield => returns a value and moves to next.
+
+- Generator object provides the method "next()".
+- "next()" provides the properties
+		a) value
+		b) done
+- "value" returns the yield.
+- "done" returns true if there is no more value to yield.
+
+Ex:
+<script>
+    function* GetValues()
+    {
+        yield "A";
+        yield "B";
+        yield "C";
+    }
+    var obj = GetValues();
+    console.log(obj.next());
+    console.log(obj.next());
+    console.log(obj.next());
+    console.log(obj.next());
+    
+</script>
+
+8. Arrow functions
+- It is a short hand technique of writing a function expression.
+
+Syntax:
+	var  hello = () => {  };
+
+	()		function parameters
+	=>		return or definition
+
+Ex:
+<script>
+    var addition = (a,b) => a + b;
+    document.write("Addition=" + addition(10, 20));
+</script>
+
+
+9. Function Recursion:
+- Recursion is a technique of calling a function with in the same context.
+- It is used to create batch operations.
+
+Syntax:
+	function f1(){
+	     f1();
+	}
+
+Ex:
+<script>
+   function Factorial(n){
+        if(n==0){
+            return 1;
+        } else {
+            return n * Factorial(n-1);
+        }
+   }
+   document.write(`Factorial of 5 is ${Factorial(5)}`);
+</script>
+
+							Module System
+- A module comprises of value, functions and classes.
+- Module is required to build a library for application.
+- JavaScript based technologies require various modules systems to use modules.
+	a) Common JS
+	b) Require JS
+	c) UMD (Universal Module Distribution)
+	d) AMD (Asynchronous Module Distribution)
+- Every JavaScript file in browser uses a module system called "ES Module"

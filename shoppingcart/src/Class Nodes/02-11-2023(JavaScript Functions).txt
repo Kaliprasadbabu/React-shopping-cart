@@ -1,0 +1,183 @@
+JavaScript Functions
+1. Function Declaration
+2. Function Expression
+3. Function Closure
+4. Function Parameters
+5. Function Callbacks
+6. Function Promises
+7. Function Return
+8. Function Recursion
+9. Arrow Functions
+
+FAQ: Why we need a function?
+Ans:  Function is used to refactor the code.
+
+FAQ: What is Refactor?
+Ans: Refactoring is the process of encapsulating a set of statements and storing under the reference of a function or file, so that you can reuse the statements.
+
+FAQ: How a function is configured?
+Ans: There are 2 ways of configuring a function in JavaScript.
+
+		a) Function Declaration
+		b) Function Expression
+
+Syntax: Declaration
+
+		function  Name()
+		{
+		}
+
+Syntax: Expression
+
+		const   Name = function() {
+
+		}
+
+Note: A function expression allows to change the functionality according to state and situation. It uses IIFE pattern. [Immediately Invoked Function Expression]
+
+	  IIFE is used for anonymous functions and function expressions.
+
+Syntax:
+	  (function() {
+
+	   })();
+
+	  const  hello = function() { };
+
+	  hello();
+
+FAQ: What is function declaration, signature and definition?
+Ans : Every function configuration comprises of 3 phases 
+		a) declaration
+		b) signature
+		c) definition
+
+	 function Hello(params)
+	 {
+	 }
+
+	function Hello(params)		=> Declaration
+	Hello(params)				=> Signature
+	{ }						=> Definition
+
+Ex:
+<script>
+     var result;
+     var password = prompt("Enter Password");
+     if(password==="admin"){
+        result = function(){
+            document.write("Success..");
+        }
+     } else {
+        result = function(){
+            document.write("invalid..");
+        }
+     }
+     result();
+</script>
+
+
+
+FAQ: What is role of parameters in a function?
+Ans : A parameter is used to modify the function.
+
+FAQ: What type of parameters are allowed in a function?
+Ans :  Any type. Primitive, Non Primitive, function.
+
+		Primitive => number, string, boolean, null, undefined, symbol, bigint
+		Non => array, object, map, set
+
+Ex:
+<script>
+    function Demo(id, name, stock, cities, rating, print){
+        print();
+        document.write(`
+            id=${id} <br>
+            Name=${name}<br>
+            Stock=${stock} <br>
+            Cities=${cities.join("-->")} <br>
+            Rating: ${rating.rate} [${rating.count}] <br>
+        `);
+
+    }
+    Demo(1, "TV", true, ["Delhi", "Hyd"], {rate:4.2, count:3000}, function(){document.write("Hello<br>")});
+</script>
+
+FAQ: What is the max limit of parameters?
+Ans: 1024
+
+FAQ: What is rest parameter?
+Ans:  A single rest parameter can allows multiple arguments.
+	 Every function can have only one rest parameter.
+         Rest parameter must be the last parameter in formal list.
+	 It is defined by using "...paramName".
+
+
+Ex:
+<script>
+    function Demo(title,...details)
+    {
+        var [id, name, price, stock] = details;
+        document.write(`
+            <h2>${title}</h2>
+            Id=${id} <br>
+            Name=${name} <br>
+            Price=${price} <br>
+            Stock=${stock}
+        `);
+    }
+    Demo("Product Details",1, "TV", 54600.44, true);
+</script>
+
+
+FAQ: What is "spread" syntax for parameters?
+Ans:  It allows to spread single actual parameter values into multiple formal parameters.
+
+FAQ: What is difference between spread and rest?
+Ans:  Rest is about formal parameters.
+	 Spread is about actual parameters.
+
+Ex:
+<script>
+   function Demo(id, name, price)
+   {
+       document.write(`
+          ID = ${id} <br>
+          Name = ${name} <br>
+          Price = ${price}
+       `);
+   }
+   var details = [1, "Mobile", 45000.33];
+   Demo(...details);
+</script>
+
+FAQ: Why a function requires "return"?
+Ans:  A function with return is used to build expressions.
+	 Expression comprises of logic and data storage.
+	 It allows to use the memory of function before it is destroyed.
+
+Ex:
+<script>
+   
+    function Addition(a, b)
+    {
+        return a + b;
+    }
+    function Result(){
+        document.write("Addition=" + Addition(20,30));
+    }
+    Result();
+</script>
+
+FAQ: What is a function can return?
+Ans : A function can return any type, primitive, non-primitive or function.
+
+Ex:
+<script>
+    function Hello(){
+         return function(){
+            return "Welcome to React";
+         }
+    }
+    document.write(Hello()());
+</script>

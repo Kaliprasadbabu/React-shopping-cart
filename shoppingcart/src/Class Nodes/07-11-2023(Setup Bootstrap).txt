@@ -1,0 +1,85 @@
+Setup Bootstrap for React Project:
+1. Install Bootstrap and Bootstrap Icons from terminal
+
+	> npm  install  bootstrap  --save
+	> npm  install  bootstrap-icons --save
+
+2. To use bootstrap and icons in all components, you have to import in "index.js"
+
+  import   '../node_modules/bootstrap/dist/css/bootstrap.css';
+  import   '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+
+3. You can use bootstrap and its icons in any component by refering to their
+     class names.
+
+Ex:
+register.jsx
+
+
+export function Register()
+{
+    return(
+       <>
+         <main className="d-flex justify-content-center mt-4">
+            <form className="border border-2 border-dark rounded p-4">
+                <h2 className="bi bi-person-fill">Register User</h2>
+                <dl>
+                    <dt>User Name</dt>
+                    <dd><input type="text" className="form-control" /></dd>
+                    <dt>Password</dt>
+                    <dd><input type="password" className="form-control"></input></dd>
+                    <dt>Age</dt>
+                    <dd><input type="number" className="form-control" /></dd>
+                    <dt>Email</dt>
+                    <dd><input type="email" className="form-control" /></dd>
+                </dl>
+                <button className="btn btn-primary w-100">Register</button>
+            </form>
+         </main>
+       </>
+    )
+}
+
+Netflix Design:
+1. Add a new folder into project "src" by name  "Netflix"
+
+2. Add following components hierarchy
+
+		-netflix-index
+			netflix-index.jsx
+			netflix-index.css
+		-netflix-header
+			netflix-header.jsx
+			netflix-header.css
+		-netflix-main
+			netflix-main.jsx
+			netflix-main.css
+		-netflix-register
+			netflix-register.jsx
+			netflix-register.css
+
+Note: You can access and use any component in another component by following 2 steps
+		Step-1: Import the component library 
+
+			import  { NetflixHeader } from  '../netflix/netflix-header/netflix-header';
+	
+		Step-2: You can access by using component selector
+
+			<NetflixHeader> </NetflixHeader>
+						(or)
+			<NetflixHeader />
+
+						 Data Binding in React
+
+
+
+
+
+
+
+
+
+
+
+
+

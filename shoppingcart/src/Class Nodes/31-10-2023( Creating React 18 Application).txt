@@ -1,0 +1,68 @@
+Creating React 18 Application
+
+- React 18+ version re-written the library.
+- React 18 introduces new features that improves the library with functionality and approach.
+- You can create a complete React 18 application using various bundling tools.
+- There are various bundling tools like
+			a) Webpack
+			b) Vite
+			c) Parcel etc..
+- If you have installed NPM as package manager then Webpack is in-built available.
+- To create a new React 18 application with webpack you have to run the following command from your command prompt.
+
+
+		D:\> npx  create-react-app    appName
+
+Ex:
+		D:\> npx  create-react-app    shopping-react
+
+- Open project folder in Visual Studio Code
+
+		
+					   React Project Infrastructure
+
+
+File / Folder				Description
+---------------------------------------------------------------------------------------------------------------
+node_modules			It comprises of library resources.
+						It contains the files related to various libraries that are
+						installed in your project using NPM.
+
+public					It comprises of static resources
+						[html, images, text , pdf, videos etc..]
+
+src						It comprises of dynamic resources
+						[.css, .js, .ts, .scss, .tsx, .jsx.. ]
+
+.gitignore					It comprises of configuration of resources which are to
+						be ignored while collabrating with GIT repository.
+
+package.json				It comprises of project meta data.
+						[name, version, license, dependencies..]
+
+package-lock.json			It comprises of dependencies meta data.
+
+
+Readme.md				It is help documentation for project.
+
+
+- To start react application run the following command in terminal
+
+		> npm  start
+
+- Open any browser and request the following
+
+		http://localhost:3000
+
+- To change the initial output you have to modify the function "App()"
+
+		src / app.js
+
+		function App()
+		{
+		  return (
+			<div>
+				<h1> Welcome to React </h1>
+			</div>
+			)
+		}

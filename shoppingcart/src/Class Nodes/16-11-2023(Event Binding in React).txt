@@ -1,0 +1,139 @@
+Event Binding in React
+
+- Event is a message sent by sender to its subscriber in order to notify the change.
+- Event follows a software design pattern called "Observer".
+- Observer is a communication pattern. It is under "Behavioural Patterns".
+- Event uses "Delegate" mechanism [Function Pointer].
+
+Syntax:
+    function  InsertClick()                => Subscriber
+    {
+    }
+    <button onclick="InsertClick()">        => Sender
+
+- Subscriber defines the actions to perform.
+- Sender sends a notification and specifies when to perform the action.
+  [Sender triggers the actions].
+
+Synthetic Events:
+
+- Every event is a browser event.
+- In JavaScript HTML elements can use the browser events.
+- React can't use "browser" events. [Browser events are related BOM]
+- React uses a virtual DOM library called "SyntheticEvents", which map to browser events.
+
+     Actual DOM Event            Synthetic Event
+    ------------------------------------------------------------
+     onclick                    onClick
+     onblur                    onBlur
+     onchange                onChange etc..
+
+- Every event extends "SyntheticEvent" [interface]
+
+Event Handler:
+- Events are configured for elements using an EventListener or EventHandler.
+- React uses EventHandler from SyntheticEvents.
+
+Syntax:
+    <button  onClick={InsertClick}>
+           
+    onClick={InsertClick}        => EventHandler
+    onClick                    => Event
+
+    onChange     : ChangeEventHandler     : EventHandler
+    onClick        : ClickEventHandler     : EventHandler
+    onFocus        : FocusEventHandler    : EventHandler
+   
+- Event handler can be configured in ways
+
+    a) Inline functionality
+    b) Embedded functionality
+
+
+Syntax: Inline
+    <button onClick={function(){ alert("Insert Clicked"); }}>  Insert </button>
+    <button onClick={ ()=> {alert("Insert Clicked"); }}>  Insert </button>
+
+Syntax: Embedded
+
+    function InsertClick()
+    {
+    }
+
+    <button onClick={InsertClick}>  Insert </button>
+
+
+Event Arguments
+- Every event in React have a default argument, which maps to "Event" base.
+- Event base can provide access to both element related properties and event properties.
+- Element Properties are accessible using "target"
+       
+        e.target.Id
+        e.target.name
+        e.target.className
+        e.target.value etc...
+
+- Event Properties are accessible directly
+
+        e.clientX
+        e.clientY
+        e.shiftKey
+        e.which
+        e.ctrlKey etc...
+
+
+Ex:
+event-binding.jsx
+
+export function EventBinding(){
+
+    function Database(e){
+        console.log(`
+           X Position : ${e.clientX} \n
+           Button Name: ${e.target.name}
+        `);
+    }
+
+    return(
+        <div className="container-fluid">
+            <h2>Event Binding</h2>
+            <button name="Insert" onClick={Database}>Insert</button>
+            <button name="Update" onClick={Database} >Update</button>
+            <button name="Delete" onClick={Database} >Delete</button>
+        </div>
+    )
+}
+
+Ex:
+event-binding.jsx
+
+import { useState } from "react";
+
+export function EventBinding(){
+
+    const [msg, setMsg] = useState('');
+
+    function Database(e){
+       switch(e.target.name){
+          case "Insert":
+          setMsg('Record Inserted');
+          break;
+          case "Update":
+          setMsg('Record Updated');
+          break;
+          case "Delete":
+          setMsg('Record Deleted');
+          break;
+       }
+    }
+
+    return(
+        <div className="container-fluid">
+            <h2>Event Binding</h2>
+            <button name="Insert" onClick={Database}>Insert</button>
+            <button name="Update" onClick={Database} >Update</button>
+            <button name="Delete" onClick={Database} >Delete</button>
+            <p>{msg}</p>
+        </div>
+    )
+}

@@ -9,14 +9,28 @@ import { Register } from './Register/Register';
 import { NetflixIndex } from './netflix-index/netflix-index'; 
 import { DataBinding } from './data-binding/data-binding';
 import FormValidation from './FormValidation/FormValidation';
+import { StyleBinding } from './StyleBinding/StyleBinding';
+import { ClassBinding } from './StyleBinding/ClassBinding';
+import { EventBinding } from './StyleBinding/EventBinding'; 
+import { PasswordStrongorWeek } from './Task1_Meter/PasswordStrongorWeek';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// <DataBinding/>
-//<FormValidation/>
-//<Register/>
+
 root.render(
   <React.StrictMode> 
-  <Register/>
+  {
+    /*
+    <DataBinding/>
+    <FormValidation/>
+    <Register/>
+    <Register/>
+    <StyleBinding/>
+    <ClassBinding/>
+    <EventBinding/>
+    */
+  }
   
+  <PasswordStrongorWeek/>
+   
   </React.StrictMode>
 );
 
