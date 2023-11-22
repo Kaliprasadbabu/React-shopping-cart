@@ -25,8 +25,8 @@ Synthetic Events:
      Actual DOM Event            Synthetic Event
     ------------------------------------------------------------
      onclick                    onClick
-     onblur                    onBlur
-     onchange                onChange etc..
+     onblur                     onBlur
+     onchange                   onChange etc..
 
 - Every event extends "SyntheticEvent" [interface]
 
@@ -134,6 +134,6 @@ export function EventBinding(){
             <button name="Update" onClick={Database} >Update</button>
             <button name="Delete" onClick={Database} >Delete</button>
             <p>{msg}</p>
-        </div>
+        </div> 
     )
 }

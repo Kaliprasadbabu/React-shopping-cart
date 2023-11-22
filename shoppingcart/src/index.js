@@ -13,6 +13,7 @@ import { StyleBinding } from './StyleBinding/StyleBinding';
 import { ClassBinding } from './StyleBinding/ClassBinding';
 import { EventBinding } from './StyleBinding/EventBinding'; 
 import { PasswordStrongorWeek } from './Task1_Meter/PasswordStrongorWeek';
+import { Event_Binding } from './StyleBinding/event-binding'; 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -26,10 +27,11 @@ root.render(
     <StyleBinding/>
     <ClassBinding/>
     <EventBinding/>
+    <PasswordStrongorWeek/>
     */
   }
+  <Event_Binding/>
   
-  <PasswordStrongorWeek/>
    
   </React.StrictMode>
 );
