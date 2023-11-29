@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './App'; 
 import   '../node_modules/bootstrap/dist/css/bootstrap.css';
   import   '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 import { Register } from './Register/Register';
@@ -14,6 +13,9 @@ import { ClassBinding } from './StyleBinding/ClassBinding';
 import { EventBinding } from './StyleBinding/EventBinding'; 
 import { PasswordStrongorWeek } from './Task1_Meter/PasswordStrongorWeek';
 import { Event_Binding } from './StyleBinding/event-binding'; 
+import { MouseOver } from './SyntheticEvents/MouseOver';
+import { Event_onMouseOut } from './SyntheticEvents/onMouseOut';
+import { Event_onMouseMove } from './SyntheticEvents/onMouseMove';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -28,15 +30,15 @@ root.render(
     <ClassBinding/>
     <EventBinding/>
     <PasswordStrongorWeek/>
+    <Event_Binding/>
+    <MouseOver/> 
+    <Event_onMouseOut/>
     */
-  }
-  <Event_Binding/>
+  } 
+  <MouseOver/> 
+  <Event_onMouseMove/>
   
-   
+
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ 
