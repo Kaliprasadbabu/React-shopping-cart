@@ -1,0 +1,77 @@
+27_12_2023: Nested Routes
+Routes
+Route Parameters
+
+FAQ: What is relative and absolute path?
+Ans:   Relative path defines a path within the context of current path.
+
+              Existing Path:        http://localhost:3000/products
+
+              <Link to="details/1"> Details </Link>
+
+              New Relative Path:   http://localhost:3000/products/details/1
+
+         Absolute path configures a new path to set by removing the existing path.
+           
+               <Link to="/details/1"> Details </Link>
+
+            New Absolute Path    :    http://localhost:3000/details/1
+
+FAQ: How a relative path is configured ?
+Ans : By using nested routes technique.
+
+Syntax:
+      <Routes>
+        <Route  path="parent"   element={ <ParentElement /> }>
+            <Route  path="child"  element={ <ChildElement />} </Route>
+        </Route>
+       </Routes>
+
+      "child" path is the relative path for "parent".
+
+FAQ: Where the route path results are rendered?
+Ans: If it is absolute path then It renders in a new screen, how ever in root container.
+    If it is relative path then it renders in outlet area. It is defined with <Outlet> component of "react-router-dom".
+
+
+Note: A component have to mount again when ever the relative path changes.
+     You can define the route parameter as "dependency" for component mount phase.
+     "useEffect()" is a hook that configures mount phase with dependency.
+
+Syntax:
+        const  params = useParams();
+
+        useEffect(()=>{
+
+        },[ params.paramerterName ])
+
+     "Mount Dependency" is an array type hence there can be multiple dependencies.
+
+FAQ: Can we have multiple outlets ?
+Ans:  Yes.
+
+
+FAQ: How to handle dynamic navigation?
+Ans:  By using "useNavigate()" hook. [V6]
+              "useHistory()" hook. [V5]
+
+Syntax:
+      let   navigate   = useNavigate();
+   
+      navigate("relativePath");
+      navigate("/absolutePath");
+
+FAQ: What are search Parameters?
+Ans : A search parameter is the query string in URL.
+   
+FAQ: How to access querystirng?
+Ans:   JavaScript => location.search
+       React => useSearchParams();  => It returns a "map" with key/value
+
+Syntax:
+             localhost:3000/products?name1=value1&name2=value2
+
+             let [search] = useSearchParams();
+             search.keys()
+             search.values()
+             search.entries() etc..

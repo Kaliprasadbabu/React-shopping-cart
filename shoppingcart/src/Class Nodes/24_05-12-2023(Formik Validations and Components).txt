@@ -1,0 +1,362 @@
+05-12-2023(Formik Validations and Components)
+
+Formik Library
+    useFormik()
+        {
+          initialValues,
+          onSubmit,
+          onChange,
+          onBlur,
+          validate,
+          validationSchema
+        }
+    formik.handleChange    => Form Input, Select, ..Elements
+    formik.handleSubmit    => <form> element
+
+                        Formik Validation
+- Formik validation comprises of 2 techniques
+    a) Validation
+    b) ValidationSchema
+
+- Validation uses a function that comprises of validation logic and error log.
+- Developer have to configure the logic for validating elements and log errors explicitly.
+
+Syntax:
+         useFormik({
+            initialValues: { }
+            validate: function(){} => returns error object
+        })
+         
+Syntax:
+        function  ValidateUser(userDetails)
+        {
+            var error = { };
+
+            return error;
+        }
+       
+        const formik = useFormik({
+            initialValues : { }
+            validate: ValidateUser
+        })
+
+- Formik will return the errors object configured with "validate" attribute.
+
+        { formik.errors.UserName }
+        { formik.errors.Password }
+
+Ex: Formik with Validate function
+
+form-demo.jsx
+
+import { useState } from "react";
+import { useFormik } from "formik";
+
+export function FormDemo()
+{
+    function ValidateUser(userDetails){
+         var error = {UserName:'', Password:'', Mobile:'', City:'', Gender:''};
+
+          if(userDetails.UserName==""){
+              error.UserName = "User Name Required";
+          } else {
+              if(userDetails.UserName.length<4){
+                error.UserName = "Name too short";
+              } else {
+                error.UserName = "";
+              }
+          }
+
+          if(userDetails.Password==""){
+             error.Password = "Password Required";
+          }
+
+          if(userDetails.Mobile==""){
+             error.Mobile = "Mobile Required";
+          } else {
+              if(userDetails.Mobile.match(/\+91\d{10}/)) {
+                  error.Mobile = "";
+              } else {
+                  error.Mobile = "Invalid Mobile";
+              }
+          }
+
+          if(userDetails.City=="-1") {
+             error.City = "Please Select Your City";
+          }
+
+          if(userDetails.Gender==""){
+             error.Gender = "Please Choose Your Gender";
+          }
+
+         return error;
+    }
+
+    const formik = useFormik({
+        initialValues : {
+            UserName: '',
+            Password: '',
+            Mobile: '',
+            City: '',
+            Gender:''
+        },
+        validate : ValidateUser,
+        onSubmit: (values) => {
+            alert(JSON.stringify(values));
+        }
+    })
+
+    return (
+        <div className="container-fluid">
+           <form className="w-25" onSubmit={formik.handleSubmit}>
+           <h3>Register User</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" name="UserName"  onChange={formik.handleChange} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.UserName}</dd>
+                <dt>Password</dt>
+                <dd><input type="password" name="Password" onChange={formik.handleChange}  className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Password}</dd>
+                <dt>Mobile</dt>
+                <dd><input type="text"  name="Mobile" onChange={formik.handleChange} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Mobile}</dd>
+                <dt>City</dt>
+                <dd>
+                    <select name="City" onChange={formik.handleChange}  className="form-select">
+                        <option value="-1">Select City</option>
+                        <option>Delhi</option>
+                        <option>Hyd</option>
+                    </select>
+                </dd>
+                <dd className="text-danger">{formik.errors.City}</dd>
+                <dt>Gender</dt>
+                <dd>
+                    <input type="radio" onChange={formik.handleChange} name="Gender" value="Male" /> <label>Male</label>
+                    <input type="radio" onChange={formik.handleChange}  name="Gender" value="Female" /> <label>Female</label>
+                </dd>
+                <dd className="text-danger">{formik.errors.Gender}</dd>
+            </dl>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
+           </form>
+        </div>
+    )
+}
+
+- React can use Validation Schema, which is a pre-defined validation structure for validating forms.
+- React doesn't provide any pre-defined validation services.
+- You have to depend on 3rd party validation schema services.
+- Formik is mostly used with validation schema service called "Yup".
+
+1. Install Yup library
+
+    > npm  i   yup  --save
+
+2. Import the compelete yup schema library or your can configure a modular library.
+
+    import  *  as yup from "yup";
+    import  required, min, max as yup from "yup"
+
+3. You can access the validation schema by using "yup.object()"
+
+    const formik = useFormik({
+        initialValues: { },
+        validationSchema: yup.object({
+            UserName: yup.required().string().number().min() etc..
+        })
+    })
+
+4. You can access the validation errors by using the error object returned by formik validation schema
+
+                  {formik.errors.UserName}
+
+Ex:
+form-demo.jsx
+
+import { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+export function FormDemo()
+{
+   
+    const formik = useFormik({
+        initialValues : {
+            UserName: '',
+            Password: '',
+            Mobile: '',
+            City: '',
+            Gender:''
+        },
+        validationSchema : yup.object({
+            UserName: yup.string().required("User Name Required").min(4, "Name too Short.."),
+            Password: yup.string().required("Password Required"),
+            Mobile: yup.string().required("Mobile Required").matches(/\+91\d{10}/,"Invalid Mobile")
+        }),
+        onSubmit: (values) => {
+            alert(JSON.stringify(values));
+        }
+    })
+
+    return (
+        <div className="container-fluid">
+           <form className="w-25" onSubmit={formik.handleSubmit}>
+           <h3>Register User</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" name="UserName"  onChange={formik.handleChange} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.UserName}</dd>
+                <dt>Password</dt>
+                <dd><input type="password" name="Password" onChange={formik.handleChange}  className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Password}</dd>
+                <dt>Mobile</dt>
+                <dd><input type="text"  name="Mobile" onChange={formik.handleChange} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Mobile}</dd>
+                <dt>City</dt>
+                <dd>
+                    <select name="City" onChange={formik.handleChange}  className="form-select">
+                        <option value="-1">Select City</option>
+                        <option>Delhi</option>
+                        <option>Hyd</option>
+                    </select>
+                </dd>
+                <dd className="text-danger">{formik.errors.City}</dd>
+                <dt>Gender</dt>
+                <dd>
+                    <input type="radio" onChange={formik.handleChange} name="Gender" value="Male" /> <label>Male</label>
+                    <input type="radio" onChange={formik.handleChange}  name="Gender" value="Female" /> <label>Female</label>
+                </dd>
+                <dd className="text-danger">{formik.errors.Gender}</dd>
+            </dl>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
+           </form>
+        </div>
+    )
+}
+
+- Formik provides a "spread" technique for configure all events to any field with single statement.
+
+    <input type="text" name="UserName"  {...formik.getFieldProps("UserName") } />
+
+Ex:
+ form-demo.jsx
+
+import { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+export function FormDemo()
+{
+   
+    const formik = useFormik({
+        initialValues : {
+            UserName: '',
+            Password: '',
+            Mobile: '',
+            City: '',
+            Gender:''
+        },
+        validationSchema : yup.object({
+            UserName: yup.string().required("User Name Required").min(4, "Name too Short.."),
+            Password: yup.string().required("Password Required"),
+            Mobile: yup.string().required("Mobile Required").matches(/\+91\d{10}/,"Invalid Mobile")
+        }),
+        onSubmit: (values) => {
+            alert(JSON.stringify(values));
+        }
+    })
+
+    return (
+        <div className="container-fluid">
+           <form className="w-25" onSubmit={formik.handleSubmit}>
+           <h3>Register User</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" name="UserName" {...formik.getFieldProps("UserName")} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.UserName}</dd>
+                <dt>Password</dt>
+                <dd><input type="password" name="Password" {...formik.getFieldProps("Password")} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Password}</dd>
+                <dt>Mobile</dt>
+                <dd><input type="text"  name="Mobile" {...formik.getFieldProps("Mobile")} className="form-control" /></dd>
+                <dd className="text-danger">{formik.errors.Mobile}</dd>
+                <dt>City</dt>
+                <dd>
+                    <select name="City" {...formik.getFieldProps("City")}  className="form-select">
+                        <option value="-1">Select City</option>
+                        <option>Delhi</option>
+                        <option>Hyd</option>
+                    </select>
+                </dd>
+                <dd className="text-danger">{formik.errors.City}</dd>
+                <dt>Gender</dt>
+                <dd>
+                    <input type="radio" {...formik.getFieldProps("Gender")} name="Gender" value="Male" /> <label>Male</label>
+                    <input type="radio" {...formik.getFieldProps("Gender")}  name="Gender" value="Female" /> <label>Female</label>
+                </dd>
+                <dd className="text-danger">{formik.errors.Gender}</dd>
+            </dl>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
+           </form>
+        </div>
+    )
+}
+
+- Formik provides components, which are predefined with funcitonality and styles.
+- Formik components will simplify the UI.
+
+        <Formik>
+        <Form>
+        <Field>
+        <ErrorMessage>
+
+Syntax:
+    <Formik  initialValues={}    validationSchema={}    onSubmit={}>
+        <Form>    
+            <Field> </Field>    text, number, password, email, radio, select..
+            <ErrorMessage />
+        </Form>
+    </Formik>
+
+Ex:
+form-demo.jsx
+
+import { useState } from "react";
+import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import * as yup from "yup";
+
+export function FormDemo()
+{
+ 
+    return (
+        <div className="container-fluid">
+            <Formik
+               initialValues={{ProductId:0, Name:'', Price:0}}
+               validationSchema={yup.object({
+                ProductId: yup.number().required("Product Required"),
+                Name: yup.string().required("Name Required").min(4, "Name too short"),
+                Price: yup.number().required("Price Required")
+               })}
+
+               onSubmit={(values)=> alert(JSON.stringify(values)) }
+            >
+
+             <Form>
+                <h1>Register Product</h1>
+                 <dl>
+                    <dt>Product Id</dt>
+                    <dd> <Field type="number" name="ProductId" ></Field> </dd>
+                    <dd className="text-danger"> <ErrorMessage name="ProductId" /> </dd>
+                    <dt>Name</dt>
+                    <dd> <Field type="text" name="Name"></Field> </dd>
+                    <dd className="text-danger"> <ErrorMessage name="Name" /> </dd>
+                    <dt>Price</dt>
+                    <dd> <Field type="number" name="Price"></Field> </dd>
+                    <dd className="text-danger"> <ErrorMessage name="Price" /> </dd>
+                 </dl>
+                 <button>Submit</button>
+             </Form>
+
+            </Formik>
+        </div>
+    )
+}

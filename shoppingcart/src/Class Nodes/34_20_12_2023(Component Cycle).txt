@@ -1,0 +1,192 @@
+20_12_2023:Component Cycle
+
+- Creating Class Components
+- State in Class Component
+- SetState
+- Methods
+- Component mount phase
+
+
+                        Events in Class Component
+
+- Class component uses the same SyntheticEvent base.
+- All Synthetic Events you used in function component are same for class component.
+- The events in class component map to class methods.
+
+Syntax:
+        InsertClick()
+        {
+        }
+
+        <button onClick={this.InsertClick}>
+
+- The event methods in class component can use and execute general DOM functions.
+- Class event related method can't use class state, you have to bind the event method with current class.
+- You can bind any method with class in constructor.
+
+    constructor()
+    {
+        this.InsertClick = this.InsertClick.bind(this);
+    }
+
+Ex:
+class-event-demo.jsx
+
+import React from "react";
+
+export class ClassEventDemo extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+            Msg: ""
+        }
+        this.InsertClick = this.InsertClick.bind(this);
+     }
+
+     InsertClick(){
+        this.setState({
+            Msg: "Record Inserted"
+        })
+     }
+
+     render(){
+        return(
+            <div className="container-fluid">
+                <button onClick={this.InsertClick}>Insert</button>
+                <p>{this.state.Msg}</p>
+            </div>
+        )
+     }
+}
+
+- You can bind event to class directly while configuring the event handler.
+
+    <button  onClick={ this.InsertClick.bind(this) }>
+
+- You can define event to use the state without bind() method.
+- You have to return the memory of specified event method, which uses the current the class memory.
+
+    <button  onClick={ () => this.InsertClick() }>
+
+Ex:
+import React from "react";
+
+export class ClassEventDemo extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+            Msg: ""
+        }
+       
+     }
+
+     InsertClick(){
+        this.setState({
+            Msg: "Record Inserted"
+        })
+     }
+
+     render(){
+        return(
+            <div className="container-fluid">
+                <button onClick={()=> this.InsertClick()}>Insert</button>
+                <p>{this.state.Msg}</p>
+            </div>
+        )
+     }
+}
+
+- Class event args are same as you defined for function components.
+
+            e.target.id
+            e.clientX
+
+Ex:
+import axios from "axios";
+import React from "react";
+
+export class ClassEventDemo extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+            categories: [],
+            products: [],
+            cartItems: []
+        }
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
+     }
+
+
+     LoadCategories(){
+         axios.get("http://fakestoreapi.com/products/categories&quot;)
+         .then(response => {
+             response.data.unshift("all");
+             this.setState(
+                {
+                    categories: response.data
+                }
+             )
+         })
+     }
+
+     LoadProducts(url){
+        axios.get(url)
+        .then(response => {
+            this.setState(
+               {
+                   products: response.data
+               }
+            )
+        })
+     }
+
+     componentDidMount(){
+        this.LoadCategories();
+        this.LoadProducts("http://fakestoreapi.com/products&quot;);
+     }
+   
+     handleCategoryChange(e){
+         if(e.target.value==="all") {
+            this.LoadProducts("http://fakestoreapi.com/products&quot;);
+         } else {
+            this.LoadProducts(`http://fakestoreapi.com/products/category/${e.target.value}`);
+         }
+     }
+
+     render(){
+        return(
+            <div className="container-fluid">
+                <header className="bg-dark h2 text-white p-2 text-center mt-2">Shopper</header>
+                <section className="row">
+                    <nav className="col-2">
+                       <label className="form-label fw-bold">Select Category</label>
+                       <div>
+                        <select onChange={this.handleCategoryChange} className="form-select">
+                            {
+                                this.state.categories.map(category =>
+                                    <option key={category} value={category}> {category.toUpperCase()} </option>
+                                    )
+                            }
+                        </select>
+                       </div>
+                    </nav>
+                    <main className="col-10 d-flex flex-wrap">
+                        {
+                            this.state.products.map(product=>
+                                <div key={product.id} className="card p-2 m-2" style={{width:'200px'}}>
+                                    <img src={product.image} className="card-img-top" height="140" />
+                                    <div className="card-header">
+                                        <p>{product.title}</p>
+                                    </div>
+                                </div>
+                                )
+                        }
+                    </main>
+                </section>
+            </div>
+        )
+     }
+}

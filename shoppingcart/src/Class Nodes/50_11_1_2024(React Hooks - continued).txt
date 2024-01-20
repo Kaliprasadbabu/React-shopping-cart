@@ -1,0 +1,214 @@
+11_1_2024(React Hooks - continued
+
+useRef()
+- It is used to create a reference for function or values, which are used internally by the application but not rendered.
+
+Syntax:
+       let  ref = useRef(null);
+
+- You can access the reference value by using the reference property "current".
+
+      ref.current;                => read
+      ref.current = value;        => write
+
+Ex:
+import { useEffect, useRef, useState } from "react"
+
+export function TimeoutDemo()
+{
+    const [message, setMessage] = useState('');
+    let messageTrigger = useRef(null);
+
+    function Msg1(){
+        setMessage('Hello !');
+    }
+    function Msg2(){
+        setMessage('How are you ?');
+    }
+    function Msg3(){
+        setMessage('Welcome to React');
+    }
+
+    function StartClick(){
+        setTimeout(Msg1, 3000);
+        messageTrigger.current = setTimeout(Msg2, 6000);
+        setTimeout(Msg3, 10000);
+    }
+
+    function CancelClick(){
+        clearTimeout(messageTrigger.current);
+    }
+
+    return(
+        <div className="container-fluid">
+            <button onClick={StartClick}>Start</button>
+            <button onClick={CancelClick}>Cancel Msg2</button>
+            <h2 className="mt-4 text-center">{message}</h2>
+        </div>
+    )
+}
+
+Ex: useRef hook
+
+import axios from "axios"
+import { useEffect, useRef, useState } from "react"
+
+export function TimeoutDemo()
+{
+
+    const [product, setProduct] = useState({});
+    const [status, setStatus] = useState('Manual');
+    let ProductId = useRef(1);
+    let timeInterval = useRef(null);
+
+    function LoadProduct(id){
+        axios.get(`http://fakestoreapi.com/products/${id}`)
+        .then(response=>{
+            setProduct(response.data);
+        })
+    }
+
+    function LoadProductAuto(){
+        ProductId.current = ProductId.current + 1;
+        axios.get(`http://fakestoreapi.com/products/${ProductId.current}`)
+        .then(response=>{
+            setProduct(response.data);
+        })
+    }
+
+    function NextClick(){
+        ProductId.current = ProductId.current + 1;
+        LoadProduct(ProductId.current);
+    }
+    function PreviousClick(){
+        ProductId.current = ProductId.current - 1;
+        LoadProduct(ProductId.current);
+    }
+
+    function PlayClick(){
+        timeInterval.current = setInterval(LoadProductAuto, 5000);
+        setStatus('Slide Show - Started');
+    }
+
+    function PauseClick(){
+        clearInterval(timeInterval.current);
+        setStatus('Slide Show - Paused');
+    }
+
+
+    useEffect(()=>{
+        LoadProduct(1);
+    },[]);
+ 
+    return(
+        <div className="container-fluid d-flex justify-content-center">
+            <div className="card p-2 mt-4 w-50">
+                <div className="card-header text-center">
+                    <div>{product.title}</div>
+                    <div> <b>{status}</b>  </div>
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-1">
+                            <button onClick={PreviousClick} className="bi bi-chevron-left btn"></button>
+                        </div>
+                        <div className="col-10">
+                        <img width="100%" src={product.image} height="300" />
+                        </div>
+                        <div className="col-1">
+                        <button onClick={NextClick} className="bi bi-chevron-right btn"></button>
+                        </div>
+                    </div>
+                </div>
+                <div className="card-footer text-center">
+                    <button onClick={PlayClick} className="btn btn-danger me-2 bi bi-play"></button>
+                    <button onClick={PauseClick} className="btn btn-warning bi bi-pause"></button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+                                useContext()
+- Context refers to memory.
+- It is the memory allocated for parent component and made availalbe to other child components that run within the context of parent.
+- If memory configure with useState() then it is not accessible to child component.
+- useContext() is used to configure a context memory that can be share to its child components.
+- It is used as a service that comprises
+        a) Provider
+        b) Injector
+- Context memory is created by using "createContext()".
+- Context memory uses a context provider that locates value in memory.
+- useContext() is a injector that injects the context values into a component.
+
+Syntax:
+1. Create a Context
+       
+        let  UserDetails = createContext(null);
+
+
+2. Configure the context provider with value in parent component
+
+         <UserDetails.Provider  value={ anyValue }>
+
+            // scope for child components
+
+        </UserDetails.Provider>    
+
+3. You can access the context memory in child components by using the injector
+    "useContext()"
+
+        let  data = useContext(UserDetails);
+
+        { data }
+
+Ex:
+context-demo.jsx
+
+import { createContext, useContext, useState } from "react";
+
+
+let UserDetailsContext = createContext(null);
+
+export function FirstLevelComponent(){
+    const user = useContext(UserDetailsContext);
+    return(
+        <div className="bg-warning p-4 text-dark">
+            <h4>First Level Component - {user} </h4>
+            <SecondLevelComponent />
+        </div>
+    )
+}
+
+export function SecondLevelComponent(){
+    let user = useContext(UserDetailsContext);
+    return(
+        <div className="bg-danger p-4 text-white">
+            <h4>Second Level Component - {user}</h4>
+        </div>
+    )
+}
+
+
+export function ContextDemo(){
+    const [userName, setUserName] = useState('John');
+    function UserChange(e){
+        setUserName(e.target.value);
+    }
+    return(
+        <div className="container-fluid p-4 bg-dark text-white">
+            <UserDetailsContext.Provider value={userName} >
+                <div>
+                    User Name : <input type="text" onChange={UserChange} />
+                </div>
+                <h2>Context Parent - {userName} </h2>
+                <FirstLevelComponent />
+            </UserDetailsContext.Provider>
+        </div>
+    )
+}
+
+                             useReducer()
+- It is a predictable state container.
+- It can store data for application, that is accessible across all component.
+- React 18x versions implicitly provide useReducer(), how ever if you want to use the predictable state container at larger scale you can use a JavaScript library called "Redux".

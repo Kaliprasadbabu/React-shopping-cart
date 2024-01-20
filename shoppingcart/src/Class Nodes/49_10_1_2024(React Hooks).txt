@@ -1,0 +1,220 @@
+10_1_2024(React Hooks
+
+React Hooks
+
+- React 17+ versions introduced Hooks for "Function Components".
+- Hook is a function that acts as a service for component.
+- Service is a pre-defined business logic, which you can inject and implement from any application.
+- Service comprises of 2 components
+        a) Provider
+        b) Injector
+- Provider locates the value or function in memory.
+- Injector is responsible for injecting the value or function into component.
+- React hooks can be used only in function components, not in class components.
+- React provides several pre-defined hooks and also allows to create custom hooks.
+
+Custom Hook:
+- Hook must be a function.
+- Hook function must return a type.
+- Hook must be used in a function component only.
+- It can be parameterized or parameterless.
+- It must be used always at higher hierarchy, don't use a hook inside another function.
+
+Ex:
+1. Add a new folder into "src" by name "hooks"
+
+2. Add a new file
+        "captcha.js"
+
+export function useCaptcha()
+{
+    var a = Math.random() * 10;
+    var b = Math.random() * 10;
+    var c = Math.random() * 10;
+    var d = Math.random() * 10;
+    var e = Math.random() * 10;
+    var f = Math.random() * 10;
+    var code = `${Math.round(a)} ${Math.round(b)} ${Math.round(c)} ${Math.round(d)} ${Math.round(e)} ${Math.round(f)}`;
+    return code;
+}
+
+3. login.jsx
+
+import { useCaptcha  } from '../../hooks/captcha';
+
+export function UserLogin()
+{
+    const captcha = useCaptcha();
+    return(
+        <div className="container-fluid">
+            <h3>User Login</h3>
+            <dl>
+                <dt>UserId</dt>
+                <dd><input type="text"/></dd>
+                <dt>Password</dt>
+                <dd><input type="password" /></dd>
+                <dt>Verify Code</dt>
+                <dd>{captcha}</dd>
+            </dl>
+            <button>Login</button>
+        </div>
+    )
+}
+
+Ex: Custom API hook
+
+hooks/getapi.js
+
+import { useEffect, useState } from "react";
+
+export function useApi(url)
+{
+    const [data, setdata] = useState()
+    useEffect(()=>{
+        fetch(url)
+        .then(res=>res.json())
+        .then(responseData=> {
+            setdata(responseData);
+        })
+    },[url])
+    return data;
+}
+
+login.jsx
+
+import { useCaptcha  } from '../../hooks/captcha';
+import  { useApi } from '../../hooks/getapi';
+
+export function UserLogin()
+{
+    const captcha = useCaptcha();
+
+    const categories = useApi('http://fakestoreapi.com/products&#39;);
+
+    return(
+        <div className="container-fluid">
+            <ol>
+                {
+                    categories.map(category=><li key={category.id}> {category.title} </li>)
+                }
+            </ol>
+            <h3>User Login</h3>
+            <dl>
+                <dt>UserId</dt>
+                <dd><input type="text"/></dd>
+                <dt>Password</dt>
+                <dd><input type="password" /></dd>
+                <dt>Verify Code</dt>
+                <dd>{captcha}</dd>
+            </dl>
+            <button>Login</button>
+        </div>
+    )
+}
+
+- React built-in Hooks
+        useState()
+        useEffect()
+        useContext()
+        useRef()
+        useReducer() etc..
+
+FAQ: How to configure unmount & mount using useEffect?
+Ans:
+        useEffect(()=>{
+            // on mount
+            return ()=>{
+               // actions on unmount..
+            }
+        },[])
+
+Ex:
+import { useEffect, useState } from "react"
+
+export function Register(){
+    useEffect(()=>{
+        console.log('Register Mounted..');
+        return()=>{
+            console.log(`Register Unmounted`);
+        }
+    })
+    return(
+        <div>
+            <h4>Register</h4>
+        </div>
+    )
+}
+
+export function Home(){
+    useEffect(()=>{
+        console.log('Home Mounted..');
+        return()=>{
+            console.log(`Home Unmounted`);
+        }
+    })
+    return(
+        <div>
+            <h4>Home</h4>
+        </div>
+    )
+}
+
+export function UserLogin()
+{
+    const [component, setComponent] = useState();
+
+    function homeClick(){
+        setComponent(<Home />);
+    }
+    function registerClick(){
+        setComponent(<Register />);
+    }
+
+    return(
+        <div className="container-fluid">
+            <button onClick={homeClick} >Home</button> <button onClick={registerClick}>Register</button>
+            <div className="mt-4">
+                {component}
+            </div>
+        </div>
+    )
+}
+
+                        UseRef
+
+Ex:
+import { useEffect, useRef, useState } from "react"
+
+export function TimeoutDemo()
+{
+    const [message, setMessage] = useState('');
+    let messageTrigger = useRef(null);
+
+    function Msg1(){
+        setMessage('Hello !');
+    }
+    function Msg2(){
+        setMessage('How are you ?');
+    }
+    function Msg3(){
+        setMessage('Welcome to React');
+    }
+
+    function StartClick(){
+        setTimeout(Msg1, 3000);
+        messageTrigger.current = setTimeout(Msg2, 6000);
+        setTimeout(Msg3, 10000);
+    }
+
+    function CancelClick(){
+        clearTimeout(messageTrigger.current);
+    }
+
+    return(
+        <div className="container-fluid">
+            <button onClick={StartClick}>Start</button>
+            <button onClick={CancelClick}>Cancel Msg2</button>
+            <h2 className="mt-4 text-center">{message}</h2>
+        </div>
+    )
+}

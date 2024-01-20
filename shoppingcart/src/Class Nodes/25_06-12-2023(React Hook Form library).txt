@@ -1,0 +1,135 @@
+06-12-2023:React Hook Form library
+Accessing Data from Form
+Validating Form Data
+Formik Components
+    - Formik
+    - Form
+    - Field
+    - ErrorMessage
+
+- Formik components provides form state validation.
+- Form state validation is used to verify all fields in a form simultaneously at the same time.
+- Form state provides services like
+
+        a) isValid            : returns true if all fields are valid
+        b) dirty            : returns true if any one field modified
+        c) touched        : returns true if any one field in form get focus.
+        d) values            : returns specific field value
+        e) errors            : returns error object that comprises of all errors
+
+Syntax:
+    <Formik>
+          {
+        form =>  <Form>  </Form>
+          }
+    </Formik>
+
+        form.isValid
+        form.dirty
+        form.touched
+
+Ex:
+form-demo.jsx
+
+import { useState } from "react";
+import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import * as yup from "yup";
+
+export function FormDemo()
+{
+ 
+    return (
+        <div className="container-fluid">
+            <Formik
+               initialValues={{ProductId:0, Name:'', Price:0}}
+               validationSchema={yup.object({
+                ProductId: yup.number().required("Product Required"),
+                Name: yup.string().required("Name Required").min(4, "Name too short"),
+                Price: yup.number().required("Price Required")
+               })}
+
+               onSubmit={(values)=> alert(JSON.stringify(values)) }
+            >
+             {
+                 form =>
+                 <Form>
+                 <h1>Register Product</h1>
+                  <dl>
+                     <dt>Product Id</dt>
+                     <dd> <Field type="number" name="ProductId" ></Field> </dd>
+                     <dd className="text-danger"> <ErrorMessage name="ProductId" /> </dd>
+                     <dt>Name</dt>
+                     <dd> <Field type="text" name="Name"></Field> </dd>
+                     <dd className="text-danger"> <ErrorMessage name="Name" /> </dd>
+                     <dt>Price</dt>
+                     <dd> <Field type="number" name="Price"></Field> </dd>
+                     <dd className="text-danger"> <ErrorMessage name="Price" /> </dd>
+                  </dl>
+                  <button disabled={(form.isValid)?false:true} >Submit</button>
+                  <button style={{display:(form.dirty)?'inline':'none'}} className="ms-2">Save</button>
+                 </Form>
+             }
+           
+
+            </Formik>
+        </div>
+    )
+}
+
+                           React Hook Form
+
+1. Install
+    >npm i react-hook-form  --save
+
+2. import the library into component
+
+    import { useForm } from  "react-hook-form";
+
+3. Configure useForm hook
+
+    const  { register, handleSubmit, formState: { errors } } = useForm();
+
+4. Bind with fields
+
+    <input type="text"  {...register("Name", { required:true, minlength:4 }) } />
+
+5. Bind submit
+
+     <form  onSubmit={handleSubmit(onSubmit)}>
+
+6. Collect the form data
+
+    const onSubmit  = (values) => console.log(values);
+
+7. Handle Errors
+
+    { (errors.Name?.type === 'required')?<span> Required </span>: <span></span> }
+
+Ex:
+hook-form-demo.jsx
+
+import { useForm } from "react-hook-form";
+
+export function HookFormDemo(){
+
+    const { register, handleSubmit, formState: {errors} } = useForm();
+
+    const onSubmit = (values) => { alert(JSON.stringify(values)) }
+
+    return(
+        <div className="container-fluid">
+           <form onSubmit={handleSubmit(onSubmit)}>
+                <h2>Register Product</h2>
+                <dl>
+                    <dt>Product Name</dt>
+                    <dd><input type="text" {...register("Name", { required: true, minLength:4 } )} /></dd>
+                    <dd className="text-danger"> {(errors.Name?.type === 'required')?<span>Name Required</span>:<span></span> && (errors.Name?.type === "minLength")?<span>Name too short</span>:<span></span>} </dd>
+                    <dt>Price</dt>
+                    <dd><input type="number" {...register("Price", { required: true, min:1000, max:10000})} /></dd>
+                    <dd className="text-danger"> {(errors.Price?.type === 'min')?<span>Price Min 1000 required</span>:<span></span> && (errors.Price?.type === 'max')?<span>Price max 10000 only</span>:<span></span>} </dd>
+                </dl>
+                <button>Submit</button>
+           </form>
+        </div>
+    )
+}

@@ -1,0 +1,232 @@
+6_1_2024(TypeScript Module, Namespace)
+
+        TypeScript Module System
+
+- Module is a set of values, functions, classes, templates, contracts etc.
+- Module requires a module system like
+    a) Common JS
+    b) Require JS
+    c) UMD
+    d) AMD
+    e) ESNext
+
+Ex:
+1. Add following folder structure
+
+            Library
+                 |_contracts
+                 |_templates
+                 |_components
+
+2. contracts/ProductContract.ts
+
+export interface ProductContract
+{
+    Name:string;
+    Price:number;
+    Qty:number;
+    Total():number;
+    Print():void;
+}
+
+3. templates/ProductTemplate.ts
+
+import { ProductContract } from "../contracts/ProductContract";
+
+export abstract class ProductTemplate implements ProductContract
+{
+    public Name:string = "";
+    public Price:number = 0;
+    public Qty:number = 0;
+    abstract Total():number;
+    abstract Print():void;
+}
+
+4. components/ProductComponent.ts
+
+import { ProductTemplate } from "../templates/ProductTemplate";
+
+export class ProductComponent extends ProductTemplate
+{
+    Name = "Samsung TV";
+    Price = 45000.44;
+    Qty = 2;
+    Total() {
+        return this.Qty * this.Price;
+    }
+    Print(){
+        console.log(`Name=${this.Name}\nPrice=${this.Price}\nQty=${this.Qty}\nTotal=${this.Total()}`);
+    }
+}
+
+4. app/index.ts
+
+import { ProductComponent } from "../library/components/ProductComponent";
+
+let tv = new ProductComponent();
+tv.Print();
+
+5. compile index.ts
+
+    > tsc  index.ts
+    > node index.js
+
+                                Namespace
+- A namespace is a collection of related type of classes, template or components.
+- It allows to configure a multi level hierarchy for members in module system, so that it reduces ambiquity issues.
+
+Syntax:
+        namespace  Name
+        {    
+            // sub_namespace
+            // classes
+            // contracts
+            // templates
+        }
+
+- You can import and implement the library of namespace using "///" directive
+
+        ///  <reference  path="../folder/file.ts" />
+
+- You can compile the namespace library using "--outFile" flag
+
+        > tsc --outFile   index.js   index.ts
+
+Ex:
+1. Add a folder "Project"
+
+            Project
+              |_Team-A
+              |_Team-B
+
+2. Team-A/TeamAComponent.ts
+
+
+namespace Project
+{
+    export namespace TeamA
+    {
+        export class Demo
+        {
+            public Print():void {
+                console.log(`Team A Print Method`);
+            }
+        }
+    }
+}
+
+2. Team-B/TeamBComponent.ts
+
+
+namespace Project
+{
+    export namespace TeamB
+    {
+        export class Demo
+        {
+            public Print():void {
+                console.log(`Team B - Print Method`);
+            }
+        }
+    }
+}
+
+3. App/index.ts
+
+/// <reference path="../Team-A/TeamAComponent.ts" />
+/// <reference path="../Team-B/TeamBComponent.ts" />
+
+let obj1 = new Project.TeamA.Demo();
+let obj2 = new Project.TeamB.Demo();
+
+obj1.Print();
+obj2.Print();
+
+4. Compile into one outfile
+
+        > tsc --outFile  index.js  index.ts
+        > node index.js
+
+
+                   Create React TypeScript Application
+                   -------------------------------------------------
+
+> npx  create-react-app    appname   --template   typescript
+
+Note: TypeScript  React application is added with "tsconfig", that specifies the rules for typescript in project.
+
+> npm  i  bootstrap   bootstrap-icons  axios  formik  yup --save
+
+Naming in TS project:
+
+        .ts            => contracts, templates
+        .tsx            => components
+
+State in TypeScript:
+   
+    const  [categories, setCategories] = useState<string[]>([ ]);
+
+
+Ex:
+/contracts/FakestoreProduct.js
+
+export interface FakestoreProduct
+{
+    id:number;
+    title:string;
+    price:number;
+    description:string;
+    image:string;
+    category:string;
+    rating:{rate:number, count:number}
+}
+
+Shopping.tsx
+
+import axios from "axios";
+import { useEffect, useState } from "react"
+import { FakestoreProduct } from "../contracts/FakestoreProduct";
+
+
+export function Shopping() {
+
+    const [categories, setCategories] = useState<string[]>([]);
+    const [products, setProducts] = useState<FakestoreProduct[]>([]);
+
+    function LoadCategories():void {
+        axios.get('http://fakestoreapi.com/products/categories&#39;)
+        .then((response)=> {
+            setCategories(response.data);
+        })
+    }
+    function LoadProducts():void {
+        axios.get('http://fakestoreapi.com/products&#39;)
+        .then((response)=> {
+            setProducts(response.data);
+        })
+    }
+
+    useEffect(()=>{
+        LoadCategories();
+        LoadProducts();
+    },[]);
+
+    return(
+        <div className="container-fluid">
+            <ol>
+                {
+                    categories.map(category =>
+                        <li key={category}> {category} </li>
+                        )
+                }
+            </ol>
+            <div>
+                {
+                    products.map(product=>
+                        <img className="m-2" src={product.image} width="100" height="100" key={product.id} />
+                        )
+                }
+            </div>
+        </div>
+    )
+}

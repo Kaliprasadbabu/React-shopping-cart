@@ -1,0 +1,130 @@
+18_1_2024(use reducer and redux)
+
+useReducer
+- It is used to configure a centralized and predictable state for component.
+- Centralized allows to store data at application level so that it is accessible to all components.
+- Predictable allows the developer to track the changes in values and know exactly what is the data stored and rendered into UI.
+- It defines application state, which is maintained from application start to end.
+- Reducer comprises of following components
+
+        a) store
+        b) state
+        c) reducer
+        d) actions
+        e) UI
+
+- Store is the location where data is kept.
+- State is the medium which can access data from store and render into UI.
+- UI is the location where data is displayed.
+- UI is the location where changes in data are detected.
+- Reducer identifies the action performed and updates data into store.
+
+Steps:
+1. Configure initial state, which is the store. It specifies the data to store.
+
+        let  initialState = { count : 0 }        => store contains count=0
+
+2. Create a reducer, which specifies the actions and data to update.
+
+        function reducer(state, action)
+        {
+             switch(action.type)
+              {
+             case "join":
+               return {count: state.count + 1 }
+             case "exit":
+               return {count: state.count - 1 }
+             }
+        }
+
+3. Any component can use the reducer and state configured by reducer [store] with a hook called "useReducer()"
+
+      const [state, dispatch] = useReducer(action, initialState);
+
+
+     function JoinClick() {
+        dispatch({type:"john"})
+     }
+
+    function ExitClick(){
+        displatch({type:"exit"})
+    }
+
+    { state.count }  Viewers
+
+Ex:
+Reducer-Demo.jsx
+
+import { useReducer } from "react";
+
+let initialState = {count: 0};          // store
+
+function reducer(state, action){
+    switch(action.type){
+        case "join":
+        return {count: state.count + 1};
+        case "exit":
+        return {count: state.count - 1};
+    }
+}
+
+export function ReducerDemo(){
+
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    function JoinClick(){
+        dispatch({type: "join"});
+    }
+    function ExitClick(){
+        dispatch({type: "exit"});
+    }
+
+    return(
+        <div className="container-fluid">
+            <div className="mt-4">
+                <button onClick={JoinClick} className="btn btn-success">Join</button>
+                <button onClick={ExitClick} className="btn btn-danger ms-2">Exit</button>
+            </div>
+            <h2>Live Broadcast</h2>
+            <iframe width="400" height="200" src="https://www.youtube.com/embed/kiAK3FcwUYA"&gt;
+            </iframe>
+            <div>
+                Live Viewers : {state.count}
+            </div>
+        </div>
+    )
+}
+
+                             Redux
+- It is a JavaScript library for mantaining state.
+- It is used by Javascript application to configure predictable state.
+- It is centralized.
+- It is debuggable.
+- It is predictable.
+- It is cross platform.
+                    https://redux.js.org/
+
+Using Redux in your React App:
+
+1. Install Redux Library [base for redux]
+
+    >npm  i  react-redux  --save
+
+2. Install Redux Tool Kit [provides ad-ons for redux]
+
+    > npm i @reduxjs/toolkit   --save
+
+3. At higher level of application development you can use
+    a) Slicers
+    b) Reducers
+    c) Store
+
+4. Create a slicer
+
+   * It is  required for configuring Initial State.
+   * Initial state defines what value you want to store in local state.
+   * It also defines the reducer
+   * reducer identifies the changes in state and updates the state values
+   * reducer can access state and action
+   * collect payload and stores in state.
+   * Exports the actions and Initial State

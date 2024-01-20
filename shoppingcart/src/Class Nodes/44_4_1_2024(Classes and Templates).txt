@@ -1,0 +1,156 @@
+4_1_2024(Classes and Templates)
+
+TypeScript OOP
+- Contracts - Interface
+- Rules for properties & methods
+- Readonly rules
+- Optional rules
+- Extending Contracts
+
+                        TypeScript Class
+- Configuring a class is same as JS.
+
+     a) Declaration
+     b) Expression
+
+    class  Name
+    {
+    }
+
+    let  ref = class {  }
+
+- Class members are same
+
+    a) Property
+    b) Accessor
+    c) Method
+    d) Constructor
+
+- TypeScript class provides static and non-static members.
+
+Static:
+- It refers to contineous memory.
+- The memory allocated for first object will continue for next object.
+- Static members are defined by using "static" keyword.
+- They are accessed within or outside class by using class name.
+- It is connected in access.
+
+Dynamic:
+- It refers to discreet memory.
+- The memory allocated for an object is destroyed when object completes its actions.
+- Memory is newly allocated for every object.
+- It is disconnected in access.
+- By default every member is dynamic.
+- They are accessed within class by using "this" keyword and outside class by using instance of class.
+
+Ex:
+
+class Demo
+{
+    static s = 0;
+    n = 0;
+    constructor(){
+        Demo.s = Demo.s + 1;
+        this.n = this.n + 1;
+    }
+    Print():void {
+        console.log(`S=${Demo.s} N=${this.n}`);
+    }
+}
+let obj1 = new Demo();
+obj1.Print();
+
+let obj2 = new Demo();
+obj2.Print();
+
+let obj3 = new Demo();
+obj3.Print();
+
+- TypeScript provides access modifiers
+
+    a) public
+    b) private
+    c) protected
+
+public:
+ - It configures accessiblity for a member.
+ - A public member is accessible from any location, within the class or outside the class.
+ - You can access in derived class or from any another class.
+
+private:
+ - It configures a private access for member.
+ - It is accessible only with in the specified class.
+ - It is not accessible outside class.
+
+protected:
+ - It configure a protected access for member.
+ - Protected refers to accessiblity within the class and in derived class only by using derived class object.
+
+Ex:
+class Super
+{
+    public Name = "TV";
+    private Price = 45000;
+    protected Stock = true;
+}
+class Derived extends Super
+{
+    public Print(obj:Derived):void {
+        obj.Name;
+        obj.Stock;
+    }
+}
+
+- Properties are configured with access modifier and data type
+
+    public  Name:string;
+    private Price:number;
+
+- Methods are configure with access modifiers , return type and parameter type.
+
+    public Total(quantity:number, price:number):number
+    {
+       return  quantity * price;
+    }
+
+    public Print() : void
+    {
+    }
+
+- Inheritance, Aggregation and Polymorphism are same.
+
+   
+                     Templates in TypeScript
+
+Ex:
+interface ProductContract
+{
+    Name:string;
+    Price:number;
+    Qty:number;
+    Total():number;
+    Print():void;
+}
+abstract class ProductTemplate implements ProductContract
+{
+        public Name: string = "";
+        public Price: number = 0;
+        public Qty: number = 0;
+        abstract Total():number;
+        abstract Print():void;
+}
+class ProductComponent extends ProductTemplate
+{
+    Name = "Samsung TV";
+    Price = 46000.44;
+    Qty = 2;
+    Total(){
+        return this.Qty * this.Price;
+    }
+    Print(){
+        console.log(`Name=${this.Name}\nPrice=${this.Price}\nQty=${this.Qty}\nTotal=${this.Total()}`);
+    }
+}
+let obj = new ProductComponent();
+obj.Print();
+

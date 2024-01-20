@@ -1,0 +1,137 @@
+08-11-2023:(Data Binding)
+Data Binding in React
+
+- Data Binding is the process of accessing data from source and render in UI, identifying the changes in UI and updating back into data source.
+
+- Data Binding is classified into 2 types
+
+	a) One Way Binding
+	b) Two Way Binding
+
+- Trygve introduced the concept of data binding in applications, which are separated into 3 components called 
+	a) Model
+	b) View
+	c) Controller
+
+- Model represents data.
+- View represents UI.
+- Controller represents application logic.
+- Controller handles communication between model and view.
+- One Way Binding allows application to access data implicitly and binding UI, but will not allow to update the changes back to model.
+- React supports only "one way binding".
+	* It is secured
+	* It uses less memory
+	* It is faster in rendering
+	* It improves the performance of application
+	* However it is not good for updating the data source.
+	* It requires explicit actions.
+- React can handle one way data binding without using DOM manipulations or DOM methods.
+- React uses a binding expression "{  }"  to bind dynamic data to UI.
+
+	JavaScript Data Binding expression "${ }"
+
+- React uses JavaScript data types
+	a) Primitive
+		number, string, boolean, null, undefined, symbol, bigint
+	b) Non Primitives
+		array, object, map
+	c) Date type
+	d) Regular Expression Type
+
+Syntax:
+		var  userName = "John";
+
+		<p> Hello ! {userName} </p>
+
+Ex: Primitive Types
+
+data-binding.jsx
+
+export function DataBinding()
+{
+    var userName = "John";
+    var age = 22;
+    var subscribe = true;
+    return(
+        <>
+          <h2>Data Binding</h2>
+          <p>Hello ! {userName} you will be {age+1} next year. </p>
+          <p> {(subscribe===true)?"Thank you for subscribing":"Please subscribe to our channel"} </p>
+        </>
+    )
+}
+
+Ex: Array
+- React uses Array methods to read elements from array and present in UI.
+- Array methods used for reading all elements 
+	a) forEach()
+	b) map()
+	c) toString()
+	d) join()
+
+data-binding.jsx
+
+
+export function DataBinding()
+{
+    var categories = ["All", "Electronics", "Footwear", "Fashion"];
+
+    return(
+        <>
+          <nav className="bg-dark text-white p-2 d-flex justify-content-between">
+            {
+                categories.map(category=>
+                    <span key={category} className="me-4">{category}</span>
+                    )
+            }
+          </nav>
+          <div className="btn-group-vertical">
+             {
+                categories.map(category=>
+                    <button key={category} className="btn btn-danger mb-1 mt-1">{category}</button>
+                    )
+             }
+          </div>
+          <ol>
+            {
+                categories.map((category)=> 
+                    <li key={category}>{category}</li>
+                )
+            }
+          </ol>
+          <select>
+             {
+                categories.map(category=> <option key={category}>{category}</option> )
+             }
+          </select>
+          <ul className="list-unstyled">
+             {
+                categories.map(category =>
+                    <li key={category}>
+                        <input type="checkbox"/> <label>{category}</label>
+                    </li>
+                    )
+             }
+          </ul>
+          <table className="table table-hover w-25">
+            <thead>
+                <tr>
+                    <th>Categories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    categories.map(category => 
+                        <tr key={category}>
+                            <td className="d-flex justify-content-between"><span>{category}</span> <button className="btn btn-danger bi bi-trash"></button> </td>
+                        </tr>
+                        )
+                }
+            </tbody>
+          </table>
+        </>
+    )
+}
+
+
+Ex: Object, Array of Objects, Date, Regular Expression

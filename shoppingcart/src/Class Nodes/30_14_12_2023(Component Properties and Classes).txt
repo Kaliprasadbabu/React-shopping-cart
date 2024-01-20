@@ -1,0 +1,177 @@
+14_12_2023:Component Properties and Classes
+Ex:
+1. Add a new component into library
+        data-grid.jsx
+
+
+export function DataGrid(props){
+    return(
+        <div className="container-fluid">
+            <table className={`table table-hover caption-top ${props.theme}`}>
+                <caption>{props.caption}</caption>
+                <thead>
+                    <tr>
+                        {
+                           props.fields.map(field=>
+                            <th key={field}> {field} </th>
+                            )
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        props.data.map(item=>
+                            <tr key={item}>
+                                {
+                                    Object.keys(item).map(key=>
+                                        <td key={key}> {item[key]} </td>
+                                        )
+                                }
+                            </tr>
+                            )
+                    }
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+2. Implement and customize grid in your component with custom data
+
+props-demo.jsx
+
+import { DataGrid } from "../../components-libary/data-grid";
+
+export   function PropsDemo(){
+    return(
+        <div className="container-fluid">
+            <DataGrid theme={'table-primary table-striped'} caption="Employee Table - Updated Nov 2023" fields={["First Name", "Last Name", "Designation"]} data={[{FirstName:"Raj", LastName:"Kumar", Designation:"Manager"}, {FirstName:"Kiran", LastName:"Rao", Designation:"Developer"}]} />
+            <DataGrid theme={'table-warning table-bordered'} caption="Product Details" fields={["Name", "Price"]} data={[{Name:"TV", Price:34000}, {Name:"Mobile", Price:12300.33}, {Name:"Watch", Price:4600.33}]} />
+        </div>
+    )
+}
+
+                        Class Components in React
+
+JavaScript Classes:
+- Class is a program template. It comprises of data and logic, which you can implement and customize according to your requirements.
+- Class is reffered as a "Model" when it is representing the data.
+- Class is reffered as an "Entity" when it is representing the bussiness.
+- It is used to keep all related data and logic together.
+- "Alan Kay" introduced object.
+- "Johan Olay" & "Kristian Nygaard" introduced OOP with SIMULA in early 1960's.
+-  OOP introduced code reusability.
+- In early 1970's "Trygve" introduced code separation with a framework called "MVC".
+  [Model-View-Controller] => language [Small Talk]
+- In early 1975 C++
+- In early 1990 Java
+- In early 2003     C#
+
+Note: JavaScript is not an OOP language, it supports only few features of OOP.
+          JavaScript is OBPS [Object Based Programming System].
+
+Configuring a Class:
+1. Class Declaration
+   
+        class  Product
+        {
+        }
+
+2. Class Expression
+
+    let Product = class {
+
+    }
+
+Class Members:
+- JavaScript class member can be
+   
+    1. Property
+    2. Accessor
+    3. Method
+    4. Constructor
+
+FAQ's:
+1. Can we define a variable as class member?
+A. No.
+
+2. Can we define a variable in class?
+A. Yes.
+
+        class  Demo
+        {
+           var x = 10;        // invalid
+        }
+
+        class Demo
+        {
+           Print(){
+            var x = 10;        // valid
+            }
+        }
+
+3. Why a variable is not allowed as class member?
+A. Variables immutable types, and class member can be only mutable type.
+
+4. Why a class requires only mutable members?
+A. It is template and immutable members will not allow to customize template.
+
+
+                                Property
+- The data in class is stored with reference of a Property.
+
+    class  Name
+    {
+      Property = value;
+    }
+
+- A property can handle any type of data, primitive or non-primitive.
+
+- A property is mutable.                    
+
+                          Accessors
+- Accessors are used to provide a fine grained control over property.
+- Accessors are 2 types
+
+        a) get()        Getter
+        b) set()        Setter
+
+- Getter can read and return a value.
+- Setter can assign a new value.
+
+Syntax:
+        get  AliasName()
+        {
+           return  propertyValue;
+        }
+
+        set   AliasName(newValue)
+        {
+            property = newValue;
+        }
+
+Ex:
+<script>
+    var username = prompt("Enter Your Name");
+    var role = prompt("Enter Your Role", "admin|customer");
+    class Product
+    {
+        _productName;
+        get ProductName(){
+            return this._productName;
+        }
+        set ProductName(newName){
+            if(role==="admin"){
+                this._productName = newName;
+            } else {
+                document.write(`Hello ! ${username} your are not authorized to set product name.`);
+            }
+        }
+    }
+    let tv = new Product();
+    tv.ProductName = prompt("Enter Product Name");
+    if(tv.ProductName)
+    {
+        document.write(`Product Name = ${tv.ProductName}`);
+    }
+</script>

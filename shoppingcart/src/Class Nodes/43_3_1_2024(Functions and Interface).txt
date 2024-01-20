@@ -1,0 +1,276 @@
+3_1_2024:Functions and Interface
+
+Typescript Functions
+
+- Function is configured with return type.
+
+    function Name() : dataType | void
+    {
+    }
+
+- Function parameters are defined with type.
+
+    function Name(param:type) : dataType | void
+    {
+
+    }
+
+Ex:
+
+function Total(qty:number, price:number):number
+{
+    return qty * price;
+}
+
+function Print(Name:string, Price:number, Qty:number):void {
+    console.log(`
+      Name : ${Name}\n
+      Price: ${Price}\n
+      Qty: ${Qty}\n
+      Total: ${Total(Qty, Price)}
+    `);
+}
+Print("Samsung TV", 45000.33, 2);
+
+- Function parameter can be configured as "optional parameter".
+- Optional parameters are defined using null-reference character "?"
+- Optional parameter must be the last parameter.
+- A required parameter can't be defined after optional parameter.
+
+Ex:
+
+function Total(qty:number, price:number):number
+{
+    return qty * price;
+}
+
+function Print(Name:string, Price:number, Qty:number, Rating?:number):void {
+   if(Rating){
+    console.log(`
+    Name : ${Name}\n
+    Price: ${Price}\n
+    Qty: ${Qty}\n
+    Total: ${Total(Qty, Price)}\n
+    Rating: ${Rating}
+  `);
+   } else {
+    console.log(`
+    Name : ${Name}\n
+    Price: ${Price}\n
+    Qty: ${Qty}\n
+    Total: ${Total(Qty, Price)}
+  `);
+   }
+}
+Print("Samsung TV", 45000.33, 2, 4.3);
+
+
+                        Typescript OOP
+
+Contracts in OOP:
+- Contract defines rules for designing a component.
+- Rules can be for data and logic.
+- Developer can't ignore any rule until or unless it is configured as optional.
+- Developer can't add any functionality or data that is not defined in contract.
+- In OOP contracts are designed by using "Interface".
+
+Syntax:
+        interface  Name
+        {
+            // rules for properties & methods
+        }
+
+
+- It must contain only rules not implementation.
+
+        interface  Name
+        {
+            Property:DataType;
+            Property:DataType = value;        // invalid
+        }
+
+Ex:
+interface IProduct
+{
+    Name:string;
+    Price:number;
+    Qty:number;
+    Total():number;
+    Print():void;
+}
+let product:IProduct = {
+    Name : "Samsung TV",
+    Price: 34000.33,
+    Qty: 2,
+    Total : function() {
+       return this.Qty * this.Price
+    },
+    Print : function(){
+        console.log(`Name: ${this.Name}\n Price: ${this.Price}\n Qty : ${this.Qty}\n Total :${this.Total()}`);
+    }
+}
+product.Print();
+
+-  A contract can have optional rules. [ ? ]
+- Optional rules are defined to configure Goals.
+
+Syntax:
+    interface  IName
+    {
+          Property?:Type;
+          Method?():Type | void;
+    }
+
+Ex:
+interface IProduct
+{
+    Name:string;
+    Price:number;
+    Qty:number;
+    Total?():number;
+    Print():void;
+    Rating?:number;
+}
+let product:IProduct = {
+    Name : "Samsung TV",
+    Price: 34000.33,
+    Qty: 2,
+    Total : function() {
+       return this.Qty * this.Price
+    },
+    Print : function(){
+        console.log(`Name: ${this.Name}\n Price: ${this.Price}\n Qty : ${this.Qty}\n Total :${this.Total()}`);
+    }
+}
+product.Print();
+
+- A contract can have readonly rules.
+- Readonly rules will allow to initialize but will not allow to assign.
+
+Syntax:
+    interface  IName
+    {
+       readonly  Property:Type;
+    }
+
+Ex:
+interface IProduct
+{
+    Name:string;
+    readonly Price:number;
+    Qty:number;
+    Total?():number;
+    Print():void;
+}
+let product:IProduct = {
+    Name : "Samsung TV",
+    Price: 34000.33,
+    Qty: 2,
+    Total : function() {
+       return this.Qty * this.Price
+    },
+    Print : function(){
+        console.log(`Name: ${this.Name}\n Price: ${this.Price}\n Qty : ${this.Qty}\n Total :${this.Total()}`);
+    }
+}
+product.Price = 50000.55;  // invalid
+product.Print();
+
+- A contract can be extended by another contract.
+- It supports multiple inheritance of contracts.
+
+Syntax:
+    interface  IName extends  Name1, Name2, Name3
+    {
+
+    }
+
+Ex:
+interface IBasicDetails
+{
+    Name:string;
+    readonly Price:number;
+    Qty:number;
+    Total?():number;
+    Print():void;
+}
+interface ICategory
+{
+    CategoryName:string;
+}
+interface IProduct extends ICategory, IBasicDetails
+{
+    Title:string;
+}
+
+let product:IProduct = {
+    Title: 'TV Details',
+    Name : "Samsung TV",
+    Price: 34000.33,
+    Qty: 2,
+    CategoryName: 'Electronics',
+    Total : function() {
+       return this.Qty * this.Price
+    },
+    Print : function(){
+        console.log(`${this.Title}\nName: ${this.Name}\n Price: ${this.Price}\n Qty : ${this.Qty}\n Total :${this.Total()} \n Category : ${this.CategoryName}`);
+    }
+}
+product.Print();
+
+Ex:
+interface Version1
+{
+    Personal:string;
+    NRI:string;
+}
+interface Version2 extends Version1
+{
+    CreditCard:string;
+}
+interface Version3 extends Version2
+{
+    Loans:string;
+}
+
+let BankApp2022:Version2 = {
+    Personal : "Personal Banking",
+    NRI : "NRI Banking",
+    CreditCard: "Credit Card Services"
+}
+
+Ex:
+interface Version1
+{
+    Personal:string;
+    NRI:string;
+}
+interface Version2
+{
+    Personal:string;
+    CreditCard:string;
+}
+interface Version3
+{
+    Loans:string;
+}
+
+interface BankApp extends Version1, Version2, Version3
+{
+    BankName:string;
+}
+
+let HDFC:BankApp = {
+    BankName : "HDFC Bank",
+    Personal : "Personal Banking",
+    NRI : "NRI Banking",
+    CreditCard: "Credit Card Services",
+    Loans: "Car, Personal Loans"
+}
+
+for(var property in HDFC)
+{
+    console.log(`${property} : ${HDFC[property]}`);
+}
+
+                             Class

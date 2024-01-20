@@ -1,0 +1,216 @@
+23_04-12-2023(React Forms)
+React Forms
+
+- Form provides an UI for application from where user can interact with the data.
+- It enables all CRUD operations on data.
+- React can use HTML forms or any 3rd party form components.
+- React HTML form requires lot of Event binding techniques and references.
+- React HTML form requires several JavaScript methods and Synthetic Events for validation.
+- Validation is required to ensure that contractionary and unauthorized data is not get stored into database.
+
+Ex: React Form
+
+form-demo.jsx
+
+
+import { useState } from "react"
+
+export function FormDemo()
+{
+    const [userDetails, setUserDetails] = useState({UserName:'', Password:'', Mobile:'', City:'', Gender:''});
+    const [errors, setErrors] = useState({UserName:'', Password:'', Mobile:'', City:'', Gender:''})
+
+    function handleNameChange(e){
+        setUserDetails({
+            UserName: e.target.value,
+            Password: userDetails.Password,
+            Mobile: userDetails.Mobile,
+            City: userDetails.City,
+            Gender: userDetails.Gender
+        })
+    }
+    function handlePasswordChange(e){
+        setUserDetails({
+            UserName: userDetails.UserName,
+            Password: e.target.value,
+            Mobile: userDetails.Mobile,
+            City: userDetails.City,
+            Gender: userDetails.Gender
+        })
+    }
+    function handleMobileChange(e){
+        setUserDetails({
+            UserName: userDetails.UserName,
+            Password: userDetails.Password,
+            Mobile: e.target.value,
+            City: userDetails.City,
+            Gender: userDetails.Gender
+        })
+    }
+    function handleCityChange(e){
+        setUserDetails({
+            UserName: userDetails.UserName,
+            Password: userDetails.Password,
+            Mobile: userDetails.Mobile,
+            City: e.target.value,
+            Gender: userDetails.Gender
+        })
+    }
+
+    function handleGenderChange(e){
+        setUserDetails({
+            UserName: userDetails.UserName,
+            Password: userDetails.Password,
+            Mobile: userDetails.Mobile,
+            City: userDetails.City,
+            Gender: e.target.value
+        })
+    }
+
+    function handleNameBlur(e){
+        if(e.target.value==""){
+            setErrors({UserName: 'User Name Required'});
+        } else {
+            setErrors({UserName: ''});
+        }
+    }
+
+    function handleFormSubmit(e){
+        e.preventDefault();
+        if(userDetails.UserName==""){
+            setErrors({
+                UserName: 'User Name Required'
+            })
+        } else {
+            alert(JSON.stringify(userDetails));
+        }
+    }
+
+    return (
+        <div className="container-fluid">
+           <form className="w-25" onSubmit={handleFormSubmit}>
+           <h3>Register User</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" onKeyUp={handleNameBlur} onBlur={handleNameBlur} onChange={handleNameChange} className="form-control" /></dd>
+                <dd className="text-danger">{errors.UserName}</dd>
+                <dt>Password</dt>
+                <dd><input type="password" onChange={handlePasswordChange} className="form-control" /></dd>
+                <dt>Mobile</dt>
+                <dd><input type="text" onChange={handleMobileChange} className="form-control" /></dd>
+                <dt>City</dt>
+                <dd>
+                    <select onChange={handleCityChange} className="form-select">
+                        <option>Select City</option>
+                        <option>Delhi</option>
+                        <option>Hyd</option>
+                    </select>
+                </dd>
+                <dt>Gender</dt>
+                <dd>
+                    <input type="radio" onChange={handleGenderChange} name="gender" value="Male" /> <label>Male</label>
+                    <input type="radio" onChange={handleGenderChange} name="gender" value="Female" /> <label>Female</label>
+                </dd>
+            </dl>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
+           </form>
+        </div>
+    )
+}
+
+
+- React can use various 3rd party form libraries to simplify the CRUD operations and validations.
+        a) Formik
+        b) Reack Hook Form
+        c) Telerik Forms etc..
+
+       
+                            Formik
+- It is a 3rd party library for React form.
+- It provides pre-defined event binding techniques that allows to access and update form data without manually writing change events.
+
+1. Install formik library for react application
+
+        > npm install formik --save
+
+2. Formik provides "useFormik()" hook to configure a form element so that you can bind the values for handling CRUD.
+
+        const  formik = useFormik({
+            initialValues: { },
+            validation: function(){},
+            validationSchema: {},
+            onSubmit: function(){ } etc..
+        })
+
+3. You have to bind formik change event with form elements
+
+    <input type="text"  onChange={formik.handleChange}>
+    <select onChange={formik.handleChange}>
+
+4. InitialValues refer to the values that a form must handle. They are binded with form elements by using "name" attribute.
+
+    <input type="text" name="UserName"  onChange={formik.handleChange}>
+
+        initialValues: { UserName: ' ' }
+
+5. Formik uses onSubmit to collect data from form and submit to server
+
+        {
+          onSubmit : (values) => {  //post to server }
+        }
+
+        <form onSubmit={formik.handleSubmit}>
+
+Ex:
+ form-demo.jsx
+
+import { useState } from "react";
+import { useFormik } from "formik";
+
+export function FormDemo()
+{
+
+    const formik = useFormik({
+        initialValues : {
+            UserName: '',
+            Password: '',
+            Mobile: '',
+            City: '',
+            Gender:''
+        },
+        onSubmit: (values) => {
+            alert(JSON.stringify(values));
+        }
+    })
+
+    return (
+        <div className="container-fluid">
+           <form className="w-25" onSubmit={formik.handleSubmit}>
+           <h3>Register User</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" name="UserName"  onChange={formik.handleChange} className="form-control" /></dd>
+                <dd className="text-danger"></dd>
+                <dt>Password</dt>
+                <dd><input type="password" name="Password" onChange={formik.handleChange}  className="form-control" /></dd>
+                <dt>Mobile</dt>
+                <dd><input type="text"  name="Mobile" onChange={formik.handleChange} className="form-control" /></dd>
+                <dt>City</dt>
+                <dd>
+                    <select name="City" onChange={formik.handleChange}  className="form-select">
+                        <option>Select City</option>
+                        <option>Delhi</option>
+                        <option>Hyd</option>
+                    </select>
+                </dd>
+                <dt>Gender</dt>
+                <dd>
+                    <input type="radio" onChange={formik.handleChange} name="Gender" value="Male" /> <label>Male</label>
+                    <input type="radio" onChange={formik.handleChange}  name="Gender" value="Female" /> <label>Female</label>
+                </dd>
+            </dl>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
+           </form>
+        </div>
+    )
+}

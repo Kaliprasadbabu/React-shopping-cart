@@ -1,0 +1,245 @@
+19_12_2023: Class Components in React
+
+React Class Components                        
+
+Issues with OOP:
+- OOP will not support low level features.
+- Low level features are required to interact with hardware services directly.
+- OOP can't interact with hardware services directly.
+- It is complex in configuration.
+- It uses more memory.
+- It is slow.
+
+Features of OOP:
+- Easy to reuse
+- Easy to extend
+- Secured Code
+- Clean separation
+- Dynamic Polymorphism
+  etc..
+
+Creating a Class Component:
+1. Class is configured using declaration
+
+    class  Name
+    {
+    }
+
+2. A class gets component behaviour by extending
+
+    a) React.Component
+    b) React.PureComponent
+
+Note:   A  "PureComponent" is modular, it updates only the changes in component
+        without reloading entire component.
+
+        An "ImpureComponent" is legacy type, which loads entire component
+        to update any change.
+
+Syntax:
+         class   Name   extends  React.Component
+         {
+         }
+     
+         class   Name   extends   React.PureComponent
+         {
+         }
+
+- Every class component is known as "StateFull" component.
+- React.Component is the super class that configures "State" at the time of constructing an object for class.
+- If your component have to use state then it must have a constructor that calls super constructor.
+
+Syntax:
+   export class  Name  extends  React.Component
+   {
+    constructor(){
+       super();
+    }
+   }
+
+- Every class component returns a markup by using "render()" method, which is a super class method.
+
+Syntax:
+   export class Name extends  React.Component
+   {
+    constructor() {
+        super();
+    }
+   
+    render() {
+       return(
+                <React.Fragment>
+
+             </React.Fragment>
+               )
+       }
+   }
+
+
+Ex:
+ admin-login.jsx
+
+import React from "react";
+
+export class AdminLogin extends React.Component
+{
+     constructor(){
+        super();
+     }
+
+     render(){
+        return(
+            <React.Fragment>
+                <div className="container-fluid">
+                <h2>Admin Login</h2>
+                <dl>
+                    <dt>UserId</dt>
+                    <dd><input type="text"/></dd>
+                </dl>
+                <button>Login</button>
+                </div>
+            </React.Fragment>
+        )
+     }
+}
+
+State in Class Component:
+- Class components can't use react hooks.
+- Hence you can't use "useState()" hook in class component.
+- Class component is a state full component. It comprises of default state.
+- You have to configure state in constructor by using
+
+        this.state = {
+            key : value,
+            key : value
+        }
+
+- You can access the state by using "this.state.key"
+
+Syntax:
+        constructor() {
+             super();
+             this.state = {
+              title : "Welcome"
+            }
+         }
+
+        <h1> { this.state.title } </h1>
+
+- To set a value into state, react class component provides  setState() method.
+       
+          this.setState({ })
+
+Ex:
+import React from "react";
+
+
+export class AdminLogin extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+            title : "Product Details",
+            product: {Name:"TV", Price: 34000.44},
+            categories: ["All", "Electronics", "Fashion"]
+        }
+     }
+
+     render(){
+        return(
+            <React.Fragment>
+                <div className="container-fluid">
+                    <h1>{this.state.title}</h1>
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>{this.state.product.Name}</dd>
+                        <dt>Price</dt>
+                        <dd>{this.state.product.Price}</dd>
+                        <dt>Category</dt>
+                        <dd>
+                            <select>
+                                {
+                                    this.state.categories.map(category=>
+                                        <option key={category}>{category}</option>
+                                        )
+                                }
+                            </select>
+                        </dd>
+                    </dl>
+
+                </div>
+            </React.Fragment>
+        )
+     }
+}
+
+- Class component configures actions to perform at the time of mounting by using the method
+
+           componentDidMount()
+           componentWillMount()
+
+Note: You can't use "useEffects()" hook.
+
+Ex:
+import React from "react";
+
+export class AdminLogin extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+            categories: [],
+            products : []
+        }
+     
+     }
+
+     LoadCategories(){
+        fetch("http://fakestoreapi.com/products/categories&quot;)
+        .then(res=> res.json())
+        .then(categories => {
+            this.setState({
+                categories: categories
+            })
+        })
+     }
+
+     LoadProducts(){
+        fetch("http://fakestoreapi.com/products&quot;)
+        .then(res=> res.json())
+        .then(products => {
+            this.setState({
+                products: products
+            })
+        })
+     }
+
+     componentDidMount(){
+         this.LoadCategories();
+         this.LoadProducts();
+     }
+
+     render(){
+        return(
+            <React.Fragment>
+                <div className="container-fluid">
+                    <h2>Select Category</h2>
+                    <select>
+                        {
+                            this.state.categories.map(category=>
+                                <option key={category}>{category}</option>
+                                )
+                        }
+                    </select>
+                    <div className="mt-3">
+                        {
+                            this.state.products.map(product=>
+                                <img key={product.id} src={product.image} width="100" height="100" className="m-2" />
+                                )
+                        }
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+     }
+}

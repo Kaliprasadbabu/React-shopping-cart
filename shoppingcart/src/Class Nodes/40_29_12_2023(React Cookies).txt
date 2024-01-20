@@ -1,0 +1,59 @@
+29_12_2023:React Cookies
+React Cookie Library
+- Cookie is a simple text document where client credentials can be stored.
+- It can be appended into client browser memory or permanent memory. [HDD]
+- Cookies are classified into
+    a) Inmemory  [Temporary]
+    b) Persistent  [Permanent]
+- Javascript DOM can manage cookies using "document.cookie" property.
+- React requires a virtual DOM library for handling cookies.
+- React doesn't provide any built-in library for cookies, you have to implement using 3rd party.
+
+1. Install React 3rd Party Cookie Library
+
+    > npm  i react-cookie --save
+
+2. If cookie is provided as a service by any 3rd parth then it will have 2 components
+   
+    a) Provider    : Locates the cookie in memory
+    b) Injector    : Injects into a component
+
+    Provider        <CookieProvider>
+    Injector        useCookies()
+
+3. You have to configure all component within the provider scope in order to use cookies. Hence configure in "index.js"
+
+        import { CookiesProvider } from 'react-cookie';
+
+        <CookiesProvider>
+              <TutorialIndex />        => root.render()
+            </CookiesProvider>
+
+4. Creating a cookie in any component
+
+    import  { useCookies } from  'react-cookie';
+
+    const [cookies, setCookie, removeCookie] = useCookies(['name']);
+
+    setCookie("name", value, [ { options } ]);
+
+5.  Accessing Cookie
+
+     cookies.name
+
+6. Verifying cookie
+
+      if(cookies.name==null)         => true if cookie exists
+
+7. Removing cookie
+
+      removeCookie("name")
+
+FAQ: How to verify cookie status in browser? [enabled or not ]
+Ans:  JavaScript "navigator.cookieEnabled"
+
+        if (window.navigator.cookieEnabled)
+        {
+        }
+
+                        TypeScript

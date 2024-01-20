@@ -1,0 +1,136 @@
+30_12_2023:TypeScript
+
+FAQ: What are the issues with JavaScript?
+Ans:
+ - It is not a strongly typed language.
+ - It is not implicitly strictly typed.
+ - It is not an OOP language.
+ - No dynamic polymorphism.
+ - No code level security.
+ - Not easy to extend.
+
+                               TypeScript
+
+- It is strictly typed mode of JavaScript.
+- Anders Hejlberg introduced "TypeScript" as language. He is the architect of language called "C#" [.net]. [Microsoft]
+- Google started a language called "atscript" in early 2013, to provide an alternative for JavaScript.
+- Google started using TypeScript as language for its framework "Angular".
+- TypeScript is transcompiled into JavaScript.
+- TypeScript is just an alternative for JavaScript, it is not replacement.
+
+Features:
+- It is strongly typed.
+- It is strictly typed.
+- It is an OOP language.
+- It supports complete extensibility, reusability, sepration.
+- It supports code level security etc..
+
+
+TypeScript Architecture:
+
+1. TypeScript Core Compiler
+ - It verifies the code syntax.
+ - It checkes the data type.
+ - It manages input and output operations
+ - It verifies code blocks and conversions of data.
+   
+  [core.ts, program.ts, scanner.ts, parser.ts, emitter.ts, checker.ts]
+
+2. Standalone Compiler
+ - It transcompiles the typescript code into javascript.
+ - Browser can interpret only JavaScript.
+
+  [tsc.ts]
+
+3. Language Service
+- A service is pre-defined business logic used by compilers to verify the code and compile the code.
+- Service is a set of factories.
+- Factory is a set of functions and values.
+
+ [services.ts]
+
+
+4. TS Server
+- It hosts the TS programs.
+- It compiles them and manages request / response.
+
+[tsserver.ts]
+
+
+5. VS Shim
+- It makes the language platform neutral.
+- It can run on any enivronment and device.
+   
+[shims.ts]
+
+    code => translated => native code   => platform dependent.
+                       [un managed]
+
+    code => translated => Managed Code => platform independent
+                         [shims.ts]
+
+
+6. Managed Language Service
+- It is the code suitable for every OS service.
+- It comprises of set of libraries that can run on every device and in any environment.
+
+
+Setup and Install TypeScript on your PC:
+
+1. Open command prompt
+
+2. Run the command
+
+    > npm   install  typescript  -g
+
+3. Check the version
+
+    > tsc  -v
+
+4. Create a project for Typescript
+   
+        D:\ts-project
+
+    > npm  init -y                [package.json]
+    > tsc  -init                    [tsconfig.json]
+
+
+5. Add folders
+    - public
+    - src
+
+6. Add a TS file
+
+    index.ts
+
+let uname:string = "John";
+let age:number = 24;
+
+function PrintDetails():string
+{
+    return `Hello ! ${uname} your age ${age}`;
+}
+
+7. Transcompile
+
+    > tsc  index.ts
+
+8.  Add Index.js to HTML page
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../src/index.js"></script>
+    <script>
+        function bodyload(){
+            document.querySelector("p").innerHTML = PrintDetails();
+        }
+    </script>
+</head>
+<body onload="bodyload()">
+    <p></p>
+</body>
+</html>

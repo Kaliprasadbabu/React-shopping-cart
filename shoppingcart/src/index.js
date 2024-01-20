@@ -16,6 +16,10 @@ import { Event_Binding } from './StyleBinding/event-binding';
 import { MouseOver } from './SyntheticEvents/MouseOver';
 import { Event_onMouseOut } from './SyntheticEvents/onMouseOut';
 import { Event_onMouseMove } from './SyntheticEvents/onMouseMove';
+import { Flipkart } from './flipkart/flipkart';
+import { FlipkartWithFetchEvent } from './flipkart/flipkartWithFetchEvent';
+import { FlipkartAjax } from './flipkart/FlipkartAjax';
+import { NasaAPI } from './nasa-api/nasa-api';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -33,12 +37,15 @@ root.render(
     <Event_Binding/>
     <MouseOver/> 
     <Event_onMouseOut/>
+    <MouseOver/> 
+    <Event_onMouseMove/>
+    <Flipkart/>
+    <FlipkartWithFetchEvent/>
+    <FlipkartAjax/>
     */
   } 
-  <MouseOver/> 
-  <Event_onMouseMove/>
+  <NasaAPI/>
   
-
   </React.StrictMode>
 );
  

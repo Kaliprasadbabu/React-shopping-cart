@@ -1,0 +1,160 @@
+22_12_2023:React Material UI
+
+Class Component Properties
+
+- Class component properties are defined in constructor.
+- Properties are object type, which you can access using "this" keyword.
+
+Syntax:
+    class  Name  extends  React.Component
+    {
+      constructor(props)
+      {
+        super();
+      }
+      render() {
+         return(
+            <div>  
+                {this.props.key}
+            </div>
+        )
+    }
+   }
+    <Name  property="value"> </Name>
+
+
+Ex:
+ Components-Library
+ navbar.jsx
+
+import React from "react";
+
+export class Navbar extends React.Component
+{
+    constructor(props){
+        super();
+    }
+    render(){
+        return(
+            <nav className={`p-3 d-flex justify-content-between ${this.props.theme}`}>
+                <div className="h4">{this.props.BrandTitle}</div>
+                <div>
+                    {
+                        this.props.MenuItems.map(item=>
+                            <button className="btn btn-link" key={item}>{item}</button>
+                            )
+                    }
+                </div>
+                <div>
+                    <span className="bi bi-person-fill me-2"></span>
+                    <span className="bi bi-search me-2"></span>
+                    <span className="bi bi-bell-fill"></span>
+                </div>
+            </nav>
+        )
+    }
+}
+
+shop.jsx
+
+import React from "react";
+import { Navbar } from "../../components-libary/navbar";
+
+
+export class Shop extends React.Component
+{
+     constructor(){
+        super();
+     }
+     render(){
+        return(
+            <div className="container-fluid">
+                <Navbar theme={'bg-warning'} BrandTitle="Shopper." MenuItems={["Home", "Shop", "Kids", "Men"]} />
+                <Navbar BrandTitle="Training Online" MenuItems={["Home", "Faculty", "Courses"]}  />
+            </div>
+        )
+     }
+}
+
+                     React Material Component Library
+
+- It is a component library built by "React" community for building interactive UI and native UI for react application.
+- It is good for rapidly building an UI for react apps.
+- It provides responsive components and native components.
+
+
+Setup React Material UI component library for Project:  [ mui.com ]
+
+1. Install MUI
+
+  > npm install @mui/material @emotion/react @emotion/styled
+
+2. Import the library required for component
+
+       import  { TextField }  from  @mui/material;        => legacy
+                      (or)
+       import  TextField  from  @mui/material/TextField;   => Modular
+
+3. Expore the component "API" documentation to know about its properties and styles.
+
+    <TextField   variant=""   label=""   color="" />
+
+Ex:
+material-demo.jsx
+
+import { TextField } from "@mui/material";
+import { useState } from "react";
+
+export function MaterialDemo()
+{
+    const [userName, setUserName] = useState('');
+
+    function handleNameChange(e){
+        setUserName(e.target.value);
+    }
+
+    return(
+        <div className="container-fluid">
+            <div className="w-25">
+                <h3>Bootstrap Style</h3>
+                <label className="form-label">User Name</label>
+                <div>
+                    <input type="text" className="form-control" placeholder="Enter Your Name" / >
+                </div>
+            </div>
+            <div className="w-25">
+                <h3>React MUI</h3>
+                <TextField color="success" onChange={handleNameChange} label="User Name" variant="standard" />
+            </div>
+            <p>Hello ! {userName} </p>
+        </div>
+    )
+}
+
+
+
+Ex: Date Picker
+
+https://mui.com/x/react-date-pickers/getting-started/
+
+import { TextField } from "@mui/material";
+import { useState } from "react";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+
+export function MaterialDemo()
+{
+
+    return(
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="container-fluid">
+                <h2>Departure</h2>
+            <div className="w-25">
+                <DatePicker />
+            </div>
+           </div>
+        </LocalizationProvider>
+    )
+}

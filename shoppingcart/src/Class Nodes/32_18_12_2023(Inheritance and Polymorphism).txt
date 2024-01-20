@@ -1,0 +1,269 @@
+18_12_2023:Inheritance and Polymorphism
+Code Reusability and Extensibility
+1. Aggregration
+2. Inheritance
+
+Aggregation
+- It is the process of accessing the members of one class in another class without configuring any relation between classes.
+- Technically is Object to Object communication and often reffered as "Has-A-Relation".
+
+Syntax:
+    class  A
+    {
+       Print(){
+       }
+    }
+    class B
+    {
+      Print() {
+         let obj = new A();
+         obj.Print();
+       }
+    }
+
+Ex:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        class HDFC_Bank_Version1
+        {
+            PersonalBanking = "Personal Banking Service - General Customers <br>";
+            NRIBanking = "NRI Banking Service - NRI Customers <br>";
+            Print(){
+                document.write(`${this.PersonalBanking}<br>${this.NRIBanking}<br>`);
+            }
+        }
+        class HDFC_Bank_Version2
+        {  
+            CreditCards = "Credit Card Payments<br>";
+            Print(){
+                let obj = new HDFC_Bank_Version1();
+                obj.Print();
+                document.write(`${this.CreditCards}<br>`);
+            }
+        }
+        class HDFC_Bank_Version3
+        {
+            Loans = "Personal and Car Loans <br>";
+            Print(){
+                let obj = new HDFC_Bank_Version2();
+                obj.Print();
+                document.write(`${this.Loans}<br>`);
+            }
+        }
+        function InstallClick(){
+            var ver = document.querySelector("select").value;
+            switch(ver)
+            {
+                case "ver1":
+                let obj1 = new HDFC_Bank_Version1();
+                obj1.Print();
+                break;
+                case "ver2":
+                let obj2 = new HDFC_Bank_Version2();
+                obj2.Print();
+                break;
+                case "ver3":
+                let obj3 = new HDFC_Bank_Version3();
+                obj3.Print();
+                break;
+                default:
+                document.write("Please Select a Version");
+                break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <fieldset>
+        <legend>Install Bank App</legend>
+        <select>
+            <option value="-1">Select Version</option>
+            <option value="ver1">Version-1 [2022]</option>
+            <option value="ver2">Version-2 [2023-March]</option>
+            <option value="ver3">Version-3 [2023-Nov] </option>
+        </select>
+        <button onclick="InstallClick()">Install</button>
+    </fieldset>
+</body>
+</html>
+
+Inheritance:
+- It allows to access the members of one class in another by configuring relationship between classes.
+- It is often reffered as "Is-A-Relation".
+- A new class can "extend" existing class, which is known as inheritance.
+- New class is known as "Derived Class" and existing class is known as "Super" class.
+
+Syntax:
+    class Super
+    {
+    }
+    class Derived extends Super
+    {
+    }
+
+- You can access the members of super class in derived by using "super" keyword.
+
+Ex:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        class HDFC_Bank_Version1
+        {
+            PersonalBanking = "Personal Banking Service - General Customers <br>";
+            NRIBanking = "NRI Banking Service - NRI Customers <br>";
+            Print(){
+                document.write(`${this.PersonalBanking}<br>${this.NRIBanking}<br>`);
+            }
+        }
+        class HDFC_Bank_Version2 extends HDFC_Bank_Version1
+        {  
+            CreditCards = "Credit Card Payments<br>";
+            Print(){
+                super.Print();
+                document.write(`${this.CreditCards}<br>`);
+            }
+        }
+        class HDFC_Bank_Version3 extends HDFC_Bank_Version2
+        {
+            Loans = "Personal and Car Loans <br>";
+            Print(){
+                super.Print();
+                document.write(`${this.Loans}<br>`);
+            }
+        }
+        function InstallClick(){
+            var ver = document.querySelector("select").value;
+            switch(ver)
+            {
+                case "ver1":
+                let obj1 = new HDFC_Bank_Version1();
+                obj1.Print();
+                break;
+                case "ver2":
+                let obj2 = new HDFC_Bank_Version2();
+                obj2.Print();
+                break;
+                case "ver3":
+                let obj3 = new HDFC_Bank_Version3();
+                obj3.Print();
+                break;
+                default:
+                document.write("Please Select a Version");
+                break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <fieldset>
+        <legend>Install Bank App</legend>
+        <select>
+            <option value="-1">Select Version</option>
+            <option value="ver1">Version-1 [2022]</option>
+            <option value="ver2">Version-2 [2023-March]</option>
+            <option value="ver3">Version-3 [2023-Nov] </option>
+        </select>
+        <button onclick="InstallClick()">Install</button>
+    </fieldset>
+</body>
+</html>
+
+Note: The basic inheritance requires base class contructor to execute before the derived class constructor.  In JavaScript you have to call the super class constructor in derived class to complete the inheriance mechanism.
+
+Syntax:
+    class Super
+    {
+       constructor(){ }
+    }
+    class Derived extends Super
+    {
+       constructor(){
+         super();
+       }
+    }
+
+Ex:
+<script>
+    class Super
+    {
+        constructor(){
+            document.write("Super Class Constructor<br>");
+        }
+    }
+    class Derived extends Super
+    {
+        constructor(){
+            super();
+            document.write("Dervied Class Constructor");
+        }
+    }
+    let obj = new Derived();
+</script>
+
+
+                                    Polymorphism
+
+- Poly means "many" and morphos means "forms".
+- Polymorphism allows a component to work for various situations.
+
+Ex:
+<script>
+    class Employee
+    {
+        FirstName;
+        LastName;
+        Designation;
+        Print(){
+            document.write(`${this.FirstName} ${this.LastName} - ${this.Designation}<br>`);
+        }
+    }
+    class Developer extends Employee
+    {
+         FirstName = "Raj";
+         LastName = "Kumar";
+         Designation = "Developer";
+         Role = "Developer Role : Build, Debug, Test";
+         Print(){
+            super.Print();
+            document.write(`${this.Role}`);
+         }
+    }
+    class Admin extends Employee
+    {
+        FirstName = "Kiran";
+         LastName = "Kumar";
+         Designation = "Admin";
+         Role = "Admin Role : Authorizations";
+         Print(){
+            super.Print();
+            document.write(`${this.Role}`);
+         }
+    }
+    class Manager extends Employee
+    {
+        FirstName = "Tom";
+         LastName = "Hanks";
+         Designation = "Manager";
+         Role = "Manager Role : Approvals";
+         Print(){
+            super.Print();
+            document.write(`${this.Role}`);
+         }
+    }
+    let employees = new Array(new Developer(), new Admin(), new Manager());
+    var designation = prompt("Enter Designation");
+    for(var employee of employees){
+        if(employee.Designation===designation){
+            employee.Print();
+        }
+    }
+</script>

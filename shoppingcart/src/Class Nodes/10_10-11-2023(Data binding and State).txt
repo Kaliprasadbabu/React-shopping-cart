@@ -1,0 +1,152 @@
+10-11-2023:(Data binding and State)
+Date Type:
+- Date is stored in memory using "Date()".
+- The default date format is "Year-Month-Day Hrs:Min:Sec.MilliSec"
+
+Syntax:
+var departure = new Date();                            => Load current date and time.
+var departure = new Date("2023-11-22  18:30:35.67");   => Specific date and time
+
+- To present date and time values JavaScript provides following methods
+
+    getHours()                0 to 23
+    getMinutes()                0 to 59
+    getSeconds()                0 to 59
+    getMilliSeconds()            0 to 99
+    getDate()                    1 to 28, 29, 30, 31
+    getDay()                    0 = Sunday
+    getMonth()                0 = January
+    getFullYear()                2023
+    toLocaleDateString()        
+    toLocaleTimeString()
+
+- You can dynamically change date and time values in JavaScript using
+    setHours()
+    setMinutes()
+    setSeconds()
+    getMilliSeconds()
+    getDate()
+    getMonth()
+    setFullYear()
+
+Ex:
+data-binding.jsx
+
+import React from "react";
+
+export function DataBinding()
+{
+    var departure = new Date();
+    var months = ["Jan", "Feb", "March", "April", "May","June","July","Aug","Sep","Oct","November", "Dec"];
+    var weekdays = ["Sunday","Mon","Tue","Wed","Thu","Friday","Sat"];
+    return(
+        <>
+           Departure : {weekdays[departure.getDay()]}, {departure.getDate()} {months[departure.getMonth()]}  - {departure.getFullYear()}
+        </>
+    )
+}
+
+Note: Never use variables to store dynamic data in React.
+      Variables are immutable in React.
+      Component requires mutable data. Hence variables are not recommended.
+
+FAQ: Where to store data for a component?
+Ans : Always use a "State" for storing data.
+
+
+                         State in Component
+                        ----------------------------
+- Web applications use "http" as protocol, which is a state less protocol.
+- State less uses the mechanism "Go-Get-Forget".
+
+    GO        - Establish connection with server
+    GET        - Get response from server
+    FORGET - Remove all traces about the request from server.
+
+- State less nature is good for web applications, as they can manage memory very well.
+- It is a draw back to continues of operations, as it can't remembers the data or previous request and provide to next request.
+- Hence web application requires to implement various state management techniques both client side and server side.
+- Some of client side state management techniques in JavaScript
+            a) Query String
+            b) Local Storage
+            c) Session Storage
+            d) Cookies
+- React components require state to store the data and use across request.
+- State is mutable.
+- React Class Components are statefull, they provides state implicitly.
+- React 18+ versions support state for function components.
+- State in function components is defined by using the Hook called "useState()".
+
+FAQ: Can we use state hook in class component?
+Ans: No. Hooks are allowed only in a function component.
+
+Syntax:
+   
+        const [getter, setter] = useState();
+
+Note: useState hook is a member of "react" module
+
+         import  { useState }  from  "react";
+
+        const [userName] = useState('John');
+
+        <p> Hello ! { userName } </p>
+
+FAQ's:
+1. Why const is used for configuring state? Can we use var or let for state?
+A. State should not allow to assign values, hence it is configured as "const".
+    State must be initialized can't be assigned.
+    You can't use var or let as they allow assignment.
+
+2. If you use const for state then how to store value into state?
+A. Every time to store value into state it must be initialized.
+
+Syntax:
+        const [userName, setName] = useState(' ');
+        setName("John");        // valid   => Initializing memory
+        setName = "John";         // invalid => Assigning
+
+3. Why it is "useState()" not  "new useState()" ?
+
+        const [userName] = new useState();  [memory allocation operator]  
+        const [userName] = useState();
+
+A. The "new" operator is  dynamic memory allocation operator, which uses
+    "Single Call" mechansim.
+     useState() uses "Single ton" mechanism, object is created for first request and the
+     same object is used across any number of requests.
+
+Ex:
+data-binding.jsx
+
+
+import { useState } from "react";
+
+export function DataBinding()
+{
+    const [title] = useState('Product Details');
+    const [product] = useState({Name:'Samsung TV', Price:456000.44});
+    const [categories] = useState(["All", "Electronics", "Footwear", "Fashion"]);
+   
+    return(
+        <>
+           <h1>{title}</h1>
+           <dl>
+            <dt>Name</dt>
+            <dd>{product.Name}</dd>
+            <dt>Price</dt>
+            <dd>{product.Price}</dd>
+            <dt>Select Category</dt>
+            <dd>
+                <select>
+                    {
+                        categories.map(category=>
+                            <option key={category}>{category}</option>
+                            )
+                    }
+                </select>
+            </dd>
+           </dl>
+        </>
+    )
+}

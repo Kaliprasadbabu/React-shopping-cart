@@ -1,0 +1,163 @@
+15_12_2023: Class Members
+
+JavaScript Class
+- Property
+- Accessor
+- Method
+- Constructor
+
+Ex:
+<script>
+    class Product
+    {
+        Name = "Samsung TV";
+        Rating = {
+            Customer : {
+                Rate : {Count:4.5}
+            },
+            Vendor : {
+                Rate : {Count:3.6}
+            }
+        }
+        get CustomerRating(){
+            return this.Rating.Customer.Rate.Count;
+        }
+        set CustomerRating(newRating){
+            this.Rating.Customer.Rate.Count = newRating;
+        }
+    }
+    let obj = new Product();
+    obj.CustomerRating = prompt("Enter New Rating for Customer");
+    document.write(`Name=${obj.Name}<br>Customer Rating : ${obj.CustomerRating}`);
+</script>
+
+                              Method
+- The logic is defined using a method.
+- Class can't have a function as member.
+- Class can have a function as member of any method.
+
+Syntax:
+    class Name
+    {
+       function(){}        // invalid
+    }
+
+    class Name
+    {
+      Method() {            // valid
+         function f1() {
+         }
+       }
+    }
+
+Note: In technical terms, computer programming languages can use
+        function    => to return a value
+        method    => to configure void
+        procedure => to define hybrid behaviour [ function / method ]
+
+- All function behaviours are similar for methods in JavaScript.
+        - Parameters
+        - Return
+        - Rest, Spread etc..
+
+Ex:
+<script>
+    class Product
+    {
+        Name = "Samsung TV";
+        Price = 45000.44;
+        Qty = 1;
+        Total(){
+            return this.Qty * this.Price;
+        }
+        Print(){
+            document.write(`Name=${this.Name}<br>Price=${this.Price}<br>Total=${this.Total()}`);
+        }
+    }
+    let tv = new Product();
+    tv.Qty = parseInt(prompt("Enter Quantity"));
+    tv.Print();
+</script>
+
+FAQ: Why a function can't be class member?
+Ans:  functions are immutable, hence they can't be class members.
+
+
+                             Constructor
+- A constructor is used for instantiation.
+- Instantiation is the process of creating an object for class.
+- Every class implicitly have a constructor, which is know as "Default Constructor".
+- Constructor is a special type of "subroutine", which executes automatically for every object.
+- Constructor can execute only once per-object.
+- JavaScript constructor is anonymous and defined using the keyword "constructor".
+
+Syntax:
+    class Name
+    {
+      constructor(){ }
+    }
+
+    let obj = new Name;        // valid => calls constructor
+    let obj = new Name();        // valid => calls constructor and can pass params if
+                                     required.
+Ex:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+         class Database
+         {
+            constructor(dbName){
+                document.write(`Connected with ${dbName} Database <br>`);
+            }
+            Insert(){
+                document.write("Record Inserted..");
+            }
+            Delete(){
+                document.write("Record Deleted..");
+            }
+         }
+         function DBActions(action){
+            switch(action){
+                case "Insert":
+                 let obj1 = new Database(document.querySelector("select").value);
+                 obj1.Insert();
+                 break;
+                case "Delete":
+                 let obj2 = new Database(document.querySelector("select").value);
+                 obj2.Delete();
+                 break;
+                 
+            }
+         }
+    </script>
+</head>
+<body>
+    <select>
+        <option>Choose Database</option>
+        <option>Oracle</option>
+        <option>MySql</option>
+        <option>MongoDB</option>
+    </select>
+    <button onclick="DBActions('Insert')">Insert</button>
+    <button onclick="DBActions('Delete')">Delete</button>
+ 
+</body>
+</html>
+
+
+Summary:
+- Property
+- Accessor
+- Method
+- Constructor
+
+                    Code Extensibiltiy & Reusability
+
+- Code extensibility and reusability can be achived by using
+   
+    a) Aggregation
+    b) Inheritance

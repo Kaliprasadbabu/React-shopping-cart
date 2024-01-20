@@ -1,0 +1,127 @@
+21_12_2023:Component Life Cycle Methods
+FAQ's:
+1. What are the activities performed on component creation?
+A.  
+    - State is configured
+    - Properties are defined
+    - Methods are bound to current class
+
+2. What are the actions on Mount?
+A.
+    - Subscribe Events
+    - Data Binding
+    - Class Binding
+    - Style Binding
+    - Event Binding
+    - Values are assigned to state
+
+3. What are the actions on Update?
+A.
+    - Events will fireup
+    - Expressions are evaluated
+    - Results are computed
+    - Response is ready [render]
+
+4. When render occurs?
+A.
+    - After mount
+    - After update
+
+5. When unmount occurs?
+A. When user navigates from one component to another.
+     The active component will unmount and requested component will mount.
+
+6. What are the actions on Unmount?
+A.
+    - Unsubscribe to events
+    - Destroy the state
+    - Clean up the memory allocated for component
+
+Ex:
+import React from "react";
+
+export class Login extends React.Component
+{
+    constructor(){
+        super();
+    }
+
+    componentDidMount(){
+        alert(`Login Component Mounted Successfully..`);
+    }
+
+    componentWillUnmount(){
+        alert(`Login component will unmount`);
+    }
+
+
+    render(){
+        return(
+            <div>
+                <h3>Login</h3>
+                <dl>
+                    <dt>User Name</dt>
+                    <dd><input type="email"></input></dd>
+                </dl>
+                <button>Login</button>
+            </div>
+        )
+    }
+}
+export class Register extends React.Component
+{
+    constructor(){
+        super();
+    }
+
+    componentDidMount(){
+        alert(`Register Component Mounted Successfully..`);
+    }
+
+    componentWillUnmount(){
+        alert(`Register component will unmount`);
+    }
+    render(){
+        return(
+            <div>
+                <h3>Register</h3>
+            </div>
+        )
+    }
+}
+
+export class CycleDemo extends React.Component
+{
+     constructor(){
+        super();
+        this.state = {
+             component: ""
+        }
+     }
+
+     LoginClick(){
+        this.setState({
+            component: <Login />
+        })
+     }
+
+     RegisterClick(){
+        this.setState({
+            component: <Register />
+        })
+     }
+
+
+     render(){
+         return(
+            <div className="container-fluid">
+                <div className="mt-3">
+                <button  onClick={this.LoginClick.bind(this)} className="btn btn-primary me-2">Login</button> <button onClick={this.RegisterClick.bind(this)} className="btn btn-danger ms-1">Register</button>
+                </div>
+                <div className="mt-4">
+                     {this.state.component}
+                </div>
+            </div>
+         )
+     }
+}

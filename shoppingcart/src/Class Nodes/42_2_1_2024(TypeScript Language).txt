@@ -1,0 +1,234 @@
+2_1_2024:TypeScript Language
+
+- Features of TypeScript
+- Architecture
+- Setup Environment for TypeScript
+- Trans compiling
+
+                        Typescript Language
+
+1. Variables
+ - Typescript variables are strongly typed.
+ - You have to define the data type while configuring variable
+
+Syntax:
+        var  name:dataType = value;
+
+ - If data type is not defined by default it is "any" type.
+ - You can assign various types of values.
+ 
+         var  x;        => x is any type
+         x = 10;
+         x = "A";
+         x = true;
+
+- Typescript supports "type inference", if data type is not define then it can configure data type according to value initialized.
+
+
+        var x = 10;    => x is number
+        x = "A";        => invalid
+
+        var x:number;
+        var x:string;
+
+- The data types of typescript are all same as JavaScript
+
+    a) Primitive Types
+        number
+        string
+        boolean
+        null
+        undefined
+        symbol
+        bigint
+
+    Syntax:
+        var x : number;
+        const x : string = "A";
+        let x:boolean;
+
+- TypeScript supports "union" of types.
+
+    Syntax:
+        var x : number | string;
+        var x : number | string | boolean;
+
+Ex:
+    var uname:string|null = prompt("Enter Name");
+
+    if(uname==null) {
+         document.write("Please enter name");
+    } else {
+         document.write("Hello ! "  + uname);
+    }
+
+Ex:
+
+var uname:string|null = prompt("Enter Name");
+if(uname==""){
+    document.write("Name Can't be empty");
+} else if(uname==null) {
+    document.write("You canceled..");
+} else {
+    document.write("Hello ! " + uname);
+}
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../src/index.js"></script>
+</head>
+<body>
+    <p></p>
+</body>
+</html>
+
+                    TypeScript Non-Primitive Types
+
+1. Array
+- Typescript array can handle various types of data same as JavaScript.
+- It can also restrict to same type as other languages.
+
+JavaScript:
+        var  values = [ ];                => any type
+        var  values = new Array();
+
+TypeScript:
+        var  values:number[] = [ ];
+        var  values:string[] = new Array();
+        var  values:any[] = [ ];
+        var  values:any[] = new Array();
+
+Ex:
+var categories:string[] = [];
+categories[0] = "Electronics";
+categories[1] = "Footwear";
+categories[2] = "Fashion";
+console.log(categories.toString());
+
+Q: Check the syntax and define valid or invalid
+
+        var  values:any[] = [ true, 10,  "A" ];        => valid
+
+        var  values:string[] = [ true, 10, "A"];         => invalid
+
+        var  values:any[] = [true, 10, "A"];            => valid
+
+        var  values:any[] = new Array(10, true);        => invalid
+
+        var  values:any[] = new Array(10, 20);        => valid
+
+        var   values:any[] = new Array();            => valid
+        values[0] = 10;
+        values[1] = "A";
+
+Note: You can't initialize different data types into array constructor even when the type configured as "any". However you can assign various types.
+
+Q: What is a "Tuple"?
+A:  It is a collection that allows various types of values to initialize or assign into memory.
+
+           var  values:any[ ] = [ ];            => tuple
+           var  values:any[ ] = new Array();    => not tuple
+
+- Typescript supports union of types for Array.
+- How ever you can't initialize various types configured in union. You can assign.
+
+    var values:string[] | number[] = [10, 20, 30];        => valid
+    var values:string[] | number[] = [10, "A"];        => invalid
+    var values:string[] | number[] = ["A", "B"];        => valid
+
+    var values:stirng[] | number[] = [ ];                => valid
+    values[0] = 10;
+    values[1] = "A";
+
+Note:  All array methods are same as in JavaScript.
+
+
+2. Object
+- It is a key and value collection.
+- Key is string type and value can be strongly typed in Typescript.
+
+Syntax:
+
+    var obj:{key:datatype, key:datatype} = { }
+
+Ex:
+
+var product:{Name:string, Price:number, Stock:boolean, Rating:{Rate:number}} = {
+    Name: "Samsung TV",
+    Price: 24000.44,
+    Stock: true,
+    Rating: {Rate: 4.2}
+}
+console.log(`
+    Name : ${product.Name}\n
+    Price: ${product.Price}\n
+    Stock: ${product.Stock}\n
+    Rating: ${product.Rating.Rate}
+`);
+
+- Every key configured in structure is mandatory to implement.
+- You can configure optional key by using null reference character "?".
+
+Syntax:
+    var  obj : {key:dataType, key?:dataType} = { }
+
+
+Ex:
+var product:{Name:string, Price:number, Stock:boolean, Rating:{Rate:number}, Qty?:number} = {
+    Name: "Samsung TV",
+    Price: 24000.44,
+    Stock: true,
+    Rating: {Rate: 4.2},
+    Qty: 2
+}
+if(product.Qty){
+    console.log(`
+    Name : ${product.Name}\n
+    Price: ${product.Price}\n
+    Stock: ${product.Stock}\n
+    Rating: ${product.Rating.Rate}\n
+    Qty: ${product.Qty}
+`);
+} else {
+    console.log(`
+    Name : ${product.Name}\n
+    Price: ${product.Price}\n
+    Stock: ${product.Stock}\n
+    Rating: ${product.Rating.Rate}
+`);
+}
+
+Ex: Array of Objects
+
+        var values: { }[ ] = [ { }, { } ];
+        var values: {key:type} [ ] = [ { }, { } ];
+
+
+var products:{Name:string, Price:number}[] = [
+    {Name: "TV", Price: 34000.44},
+    {Name: "Mobile", Price: 24000.33}
+];
+for(var product of products) {
+    console.log(`${product.Name} - ${[product.Price]}\n`);
+}
+
+3. Date Type
+   
+        var  dob : Date = new Date();
+
+4. Regular Expression Type
+
+        var pattern: RegExp = /  /;
+
+
+Note:
+- TypeScript statements and operators are same as defined in JavaScript
+
+       
+                        TypeScript Function

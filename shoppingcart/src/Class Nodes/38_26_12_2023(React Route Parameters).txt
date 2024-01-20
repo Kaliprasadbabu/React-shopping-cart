@@ -1,0 +1,143 @@
+26_12_2023:React Route Parameters
+
+<BrowserRouter>
+<Routes>
+<Route>
+<Link>
+
+                         Route Parameters
+- A parameter allows to query any content directly from URL.
+- In traditional web applications we use lot of query strings.
+
+    http://www.amazon.in/products.aspx?category=electronics&subcategory=mobiles
+
+- Route parameter provides a uniform and simple technique for queries
+
+    http://www.amazon.in/products/electronics/mobiles
+
+
+- Route with parameter is configure using the following syntax
+
+    <Route  path="name/:param1/:param2.."   element={ <Component /> }  />
+
+- Route parameters are explicitly passed with values from URL or Link component.        
+
+     http://localhost:3000/name/value1/value2
+   
+     <Link  to="/name/value1/value2">  Text </Link>
+
+- React provides "useParams()" hook, from "react-router-dom" library.
+- It can read route parameters and access in any component.
+
+         let  params = useParams();
+
+- All parameters are returned as "object".
+
+        params = { key : value,  key: value }
+
+        params = { param1: value1,  param2: value2 }
+
+        params.param1    = value1
+        params.param2    = value2
+
+Ex:
+app.js
+
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { Login } from './components/login/login';
+import { Mobiles } from './components/mobiles/mobiles';
+import { Details } from './components/details/details';
+
+function App() {
+  return (
+    <div className="App">
+       
+        <BrowserRouter>
+            <header>
+              <h1>Shopper.</h1>
+              <nav>
+                 <Link to='/'>Home</Link> <span></span>
+                 <Link to='kids'>Kids</Link> <span></span>
+                 <Link to='men'>Men's Fashion</Link> <span>  </span>
+                 <Link to='login'> Login </Link> <span></span>
+                 <Link to='mobiles/iphone'> Iphone </Link> <span></span>
+                 <Link to='mobiles/realme'> Realme </Link>
+              </nav>
+            </header>
+            <hr />
+            <Routes>
+                <Route path='/' element={<><h2>Home</h2><p>Year end sale 40% OFF</p></>}></Route>
+                <Route path='kids' element={<><h2>Kids Fashion</h2><p>30% OFF on kidswear</p></>} ></Route>
+                <Route path='men' element={<><h2>Men's Fashion</h2><p>Winter wear, Shoes, Jeans..</p></>} ></Route>
+                <Route path='login' element={<Login />} />
+                <Route path='mobiles/:category' element={<Mobiles />} />
+                <Route path='details/:id/:name/:price/:stock' element={<Details/>} />
+                <Route path='*' element={<><code>Not Found: Path you requested not found</code></>}></Route>
+            </Routes>
+        </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+
+mobiles.jsx
+
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+
+export function Mobiles()
+{
+    const [mobiles, setMobiles] = useState([{Name:"Realme C16", Category:"realme"}, {Name:"Iphone 14 pro-max", Category:"iphone"}, {Name: "Iphone 13", Category:"iphone"}])
+
+    let params = useParams();
+
+    return(
+        <div>
+            <h4>Mobiles - Search Results for {params.category.toUpperCase()} </h4>
+            <table width="400" border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                      mobiles.filter(mobile => mobile.Category===params.category).map(item=>
+                         <tr key={item.Name}>
+                            <td>{item.Name}</td>
+                            <td>{item.Category}</td>
+                         </tr>
+                        )
+                    }
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+
+details.jsx
+
+import { useParams } from "react-router-dom"
+
+
+export  function Details()
+{
+    let params = useParams();
+
+    return(
+        <div>
+            <h3>Details</h3>
+            <p>
+                Id : {params.id} <br />
+                Name : {params.name} <br/>
+                Price : {params.price} <br/>
+                Stock : {(params.stock==="true")?"Available": "Out of Stock"}
+            </p>
+        </div>
+    )
+}

@@ -1,0 +1,142 @@
+23_12_2023:React Routing
+
+Routing
+
+- Web development is all about Objects and Techniques.
+- Web Objects include both client side and server side.    
+        Document  Objects
+        Browser Objects
+        CSS Objects
+        Session Object
+        Application Object
+        Cookie Object
+        Server Object
+        Path Object
+        Memory Object etc..
+- Web Techniques include both server side & client side
+        Style Binding
+        Class Binding
+        Data Binding
+        Model Binding
+        Caching
+        State Management
+        Routing    
+        Event Binding etc..
+
+- Routing is a technique used in web applications to configure user and SEO friendly URL.
+- It allows to query any content directly from URL.
+- It enables Ajax requests, which allows to load new details into page without reloading the page.
+- It enable SPA [Single Page Application] approach, where user can stay on one page and can access everything into page.
+- It can enable partial postbacks and asynchronous rendering.
+- Routing can be both server side or client side.
+- React JS routing library is not a part of its core library.
+- React routing library have 2 major versions
+        a) V5    [React Router DOM 5] upto 17x of react
+        b) V6    [React Router DOM 6] from 18x of react
+
+Note: V6 is a complete re-write of routing library.
+
+Without Routing:
+    http://www.amazon.in/electronics.aspx?category=mobiles&model=samsung
+
+With Route:
+    http://www.amazon.in/electronics/mobiles/samsung
+
+Setup Routing:
+1. Install react-router-dom library
+
+    >npm i  react-router-dom
+
+    https://reactrouter.com/en/main
+
+2. Router DOM components you can import and directly implements in application
+
+    <BrowserRouter>
+    <Routes>
+    <Route>
+    <Link>
+    <Outlet>
+    etc..
+
+3. Routing is configured in startup component and it allows to access other components and render into startup component.
+
+Router Components:
+
+1. BrowserRouter  
+- It is a provider  for routes in virtual DOM.
+- Provider is a component of DI [Dependency Injection] which is used to location your resource in memory.
+- BrowserRouter can translate the virtual DOM routes into actual DOM location object.
+
+2. Routes
+- It is a component for configuring collection of routes.
+- It is used to construct a "Route Table".
+
+3. Route
+- It is used to configure a route inside routes collection.
+- Route defines the request path and element to render as response.
+
+Syntax:
+    <BrowserRouter>
+        <Routes>
+           <Route  path=""  element=""> </Route>
+           <Route  path=""  element=""> </Route>        
+        </Routes>
+    </BrowserRouter>
+
+- Route path comprises meta characters and request name.
+
+        path="/"        It is used configure default to render
+        path="*"        It is used to configure the content to render when requested
+                    component not found.
+        path="name"    It is used to request specific
+
+4. Link
+- It is used to configure a Hyperlink that navigates to specific path in routing.
+
+        <Link  to="path"> Text | Image </Link>
+
+
+Ex:
+1. Create a new react app
+
+    > npx  create-react-app   react-routing-demo
+
+2. Install router dom
+
+    > npm i  react-router-dom   --save
+
+3. Go to "app.js"
+
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { Login } from './components/login/login';
+
+function App() {
+  return (
+    <div className="App">
+       
+        <BrowserRouter>
+            <header>
+              <h1>Shopper.</h1>
+              <nav>
+                 <Link to='/'>Home</Link> <span></span>
+                 <Link to='kids'>Kids</Link> <span></span>
+                 <Link to='men'>Men's Fashion</Link> <span>  </span>
+                 <Link to='login'> Login </Link>
+              </nav>
+            </header>
+            <hr />
+            <Routes>
+                <Route path='/' element={<><h2>Home</h2><p>Year end sale 40% OFF</p></>}></Route>
+                <Route path='kids' element={<><h2>Kids Fashion</h2><p>30% OFF on kidswear</p></>} ></Route>
+                <Route path='men' element={<><h2>Men's Fashion</h2><p>Winter wear, Shoes, Jeans..</p></>} ></Route>
+                <Route path='login' element={<Login />} />
+                <Route path='*' element={<><code>Not Found: Path you requested not found</code></>}></Route>
+            </Routes>
+        </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;

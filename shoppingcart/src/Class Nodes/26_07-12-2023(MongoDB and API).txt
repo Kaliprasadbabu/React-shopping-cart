@@ -1,0 +1,157 @@
+07-12-2023(MongoDB and API)
+MERN Stack Example
+
+M    - MongoDB     Database
+E    - Express JS    Middleware
+R    - React JS    UI Library
+N    - Node JS    Server Side [API]
+
+
+                            MongoDB
+- It an no-sql database.
+- It is document oriented.
+- It supports ORM.
+- It supports Indexing.
+- It supports Ad-hoc queries.
+
+       
+        General Database             MongoDB Terminology
+        -----------------------------------------------------------------------
+         Database                Database
+         Table                    Collection
+         Row/Record                Document
+         Field/Column                Field/Key
+         Index                        Index  
+         Joins                    Embedded Documents
+
+Setup MongoDB on your PC:
+
+1. Download and Install MongoDB community server
+
+        https://www.mongodb.com/try/download/community
+
+
+2. While installing mongodb make sure that  you selected "MongoDB Compass"
+
+3. Start MongoDB Server
+
+        run => services.msc => mongodb server [start]
+
+4. Open MongoDB Compass and connect to server
+
+    Connection String :   mongodb://127.0.0.1:27017
+
+
+5. Create a new Database in MongoDB for  "Appointments, Reminders" [To-DO]
+
+       Database Name        :  todo
+       Collection            :  appointments
+       
+6. Insert a sample document
+
+        {
+          "title": "test title",
+            "date": {"$date": "2023-12-10T10:00:00.000Z"},
+             "description": "something about appointment"
+        }
+
+
+CRUD Commands:
+
+1. How to read data from collection
+        find()
+Syntax:
+        db.collection.find({query})
+        db.appointments.find({})        => return all
+       
+        db.appointments.find({ field:value })        exact match
+
+  Operators:
+        $gt            greater than
+        $lt            less than
+        $gte            greater than or equal
+        $lte            less than or equal
+        $ne            not equal
+        $or            OR
+        $and        AND
+
+Syntax:
+        db.appointments.find({ date: {$gte:15} })        0 to 31
+        db.appointments.find({ })                    all
+       
+Ex:
+ db.appointments.find({$and:[{date:{$gt:15}}, {date:{$lt:25}}]});
+
+
+2. Inserting Documents into collection
+        insertOne({ })
+        insertMany([ { }, { } ])
+
+Syntax:
+    db.collection.insertOne({ field:value });
+    db.appointments.insertOne({"Id":1, "Title":"Test", "Date":"2023-12-20", "Description":"something about"})
+
+3. Updating Document
+        updateOne()
+        updateMany()
+Operator:
+        $set
+        $unset
+        $rename
+
+Syntax:
+        db.collection.updateOne({find}, {update})
+
+        db.appointments.updateOne({Id:1}, {$set:{Title: "Meeting"}})
+
+
+4. Delete Document
+        deleteOne()
+        deleteMany()
+
+Syntax:
+        db.collection.deleteOne({findQuery})
+
+        db.appointments.deleteOne({Id:1})
+
+
+
+                        Node & Express
+                          [Create API]
+
+1. Install the following libraries in your React application
+
+        > npm i  express --save
+        > npm i  mongodb ---save
+        > npm i  cors --save
+
+    express        : It is required to configure API with server side routing.
+    mongodb        : It is a driver library that allows communication between API and
+                  mongodb database.
+    cors            : It is used to manage Cross Origin Resouce Sharing in network
+                  applications.
+
+2. Add a folder into your project "Server"
+
+3. Add a new JavaScript by name "api.js" [Node JS]
+
+                api.js
+
+var express = require("express");
+
+var app = express();
+
+app.get("/", (req, res)=>{
+   res.send("<h1>To DO - API</h1>");  
+})
+
+app.listen(4000);
+console.log(`Server Started : http://127.0.0.1:4000`);
+
+4. Open Terminal
+
+        > node  api.js
+
+5. You can request following in browser
+
+        http://127.0.0.1:4000
